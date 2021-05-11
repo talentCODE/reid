@@ -1,0 +1,496 @@
+
+设置#4月24日 采用ProtoDataset+newDataset1组成新的NewDataset。 外加一个新的newDataset1，形成两个dataset来完成平衡训练+提升新数据的利用率。
+
+
+
+K:\ws\anaconda\python.exe "K:\ws\PyCharm 2020.1\plugins\python\helpers\pydev\pydevd.py" --multiproc --qt-support=auto --client 127.0.0.1 --port 53049 --file "K:/ws/project/ABMT-master - change/examples/ABMT_IC3.py" --data-dir K:\\ws\\project\\data\\ -dt market1501 -ds dukemtmc-reid -a resnet50_AB_cosine --lamda 10 --num-instances 4 --lr 0.00035 --iters 200 -b 32 --epochs 25 --dropout 0 --init logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/ --logs-dir logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/ --features 0
+pydev debugger: process 34132 is connecting
+
+Connected to pydev debugger (build 201.6668.115)
+==========
+Args:Namespace(alpha=0.999, arch='resnet50_AB_cosine', batch_size=32, ckp_prefix='ABMT_IC3', data_dir='K:\\\\ws\\\\project\\\\data\\\\', dataset_source='dukemtmc-reid', dataset_target='market1501', dropout=0.0, epochs=25, eval_step=1, features=0, height=256, init='logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/', iters=200, lamda=10.0, logs_dir='logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/', lr=0.00035, momentum=0.9, nb_cl=100, nb_protos=4, nb_runs=1, num_instances=4, num_phase=5, print_freq=20, rr_gpu=False, seed=1, soft_ce_weight=0.5, soft_tri_weight=0.8, weight_decay=0.0005, width=128, workers=8)
+==========
+=> Market1501 loaded
+Dataset statistics:
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |   751 |    12936 |         6
+  query    |   750 |     3368 |         6
+  gallery  |   751 |    15913 |         6
+  ----------------------------------------
+Order name:./checkpoint/seed_1_market1501_order.pkl
+Loading orders
+[690, 602, 389, 537, 90, 382, 654, 84, 425, 85, 608, 692, 334, 684, 19, 175, 285, 207, 60, 120, 364, 59, 512, 738, 448, 363, 47, 541, 445, 681, 432, 521, 311, 527, 214, 544, 601, 378, 111, 435, 101, 729, 8, 598, 484, 69, 560, 718, 523, 487, 734, 554, 202, 737, 154, 81, 329, 379, 412, 524, 631, 56, 148, 286, 599, 262, 23, 180, 720, 676, 624, 474, 314, 652, 494, 185, 310, 273, 696, 50, 717, 686, 194, 117, 386, 667, 674, 361, 323, 181, 436, 61, 134, 233, 589, 703, 3, 403, 159, 255, 551, 65, 366, 161, 104, 682, 603, 57, 607, 247, 739, 201, 446, 320, 540, 248, 35, 578, 402, 274, 373, 41, 626, 433, 16, 582, 108, 429, 748, 358, 0, 242, 74, 491, 66, 464, 345, 482, 414, 496, 687, 556, 480, 289, 305, 13, 459, 585, 257, 92, 473, 733, 672, 245, 530, 195, 507, 628, 132, 741, 371, 502, 529, 301, 40, 710, 68, 76, 223, 623, 139, 187, 372, 118, 299, 597, 34, 368, 189, 216, 744, 660, 699, 352, 498, 119, 82, 353, 355, 518, 107, 17, 307, 172, 404, 103, 656, 625, 374, 383, 408, 45, 241, 335, 218, 618, 635, 11, 88, 604, 538, 147, 658, 713, 224, 350, 570, 596, 619, 528, 594, 173, 333, 121, 695, 49, 31, 385, 268, 707, 479, 265, 747, 647, 685, 399, 116, 427, 670, 488, 95, 426, 740, 354, 318, 346, 277, 669, 62, 533, 160, 516, 689, 558, 483, 135, 711, 552, 331, 610, 29, 501, 592, 341, 146, 419, 657, 576, 349, 165, 80, 392, 259, 9, 746, 339, 591, 179, 638, 298, 422, 5, 197, 590, 437, 261, 664, 428, 434, 38, 644, 526, 293, 162, 67, 124, 39, 4, 33, 509, 280, 522, 99, 550, 567, 236, 421, 449, 622, 397, 732, 481, 186, 441, 680, 260, 415, 153, 517, 304, 200, 716, 78, 312, 679, 549, 42, 133, 394, 612, 250, 531, 439, 519, 192, 220, 495, 388, 563, 447, 511, 157, 539, 272, 722, 731, 306, 565, 102, 52, 156, 396, 400, 97, 573, 128, 177, 347, 110, 705, 510, 375, 343, 543, 142, 605, 6, 267, 743, 237, 486, 58, 232, 688, 617, 203, 649, 284, 443, 2, 736, 411, 217, 360, 46, 721, 225, 18, 168, 228, 292, 377, 227, 629, 620, 328, 283, 698, 579, 730, 546, 93, 213, 258, 337, 291, 493, 106, 115, 158, 745, 467, 36, 105, 395, 362, 452, 204, 244, 221, 246, 365, 504, 559, 723, 575, 351, 249, 122, 406, 640, 164, 642, 613, 697, 239, 83, 525, 295, 636, 70, 506, 457, 98, 614, 693, 359, 30, 340, 587, 94, 127, 630, 1, 472, 27, 89, 308, 73, 453, 184, 726, 171, 417, 226, 678, 646, 112, 91, 294, 370, 574, 650, 125, 423, 728, 455, 460, 410, 315, 376, 12, 651, 438, 553, 150, 750, 555, 577, 238, 114, 659, 442, 600, 309, 409, 143, 205, 14, 708, 463, 54, 430, 208, 344, 440, 131, 380, 174, 593, 191, 270, 407, 535, 123, 138, 51, 275, 727, 342, 256, 182, 300, 571, 240, 230, 326, 458, 465, 163, 167, 145, 206, 500, 188, 324, 637, 671, 79, 634, 677, 229, 581, 100, 290, 444, 712, 53, 391, 725, 749, 251, 499, 475, 271, 44, 113, 24, 211, 169, 520, 32, 109, 136, 330, 222, 28, 287, 55, 662, 675, 48, 735, 545, 477, 547, 63, 413, 384, 666, 322, 451, 584, 234, 557, 462, 424, 661, 303, 663, 219, 714, 296, 21, 420, 325, 199, 450, 137, 536, 212, 724, 702, 691, 505, 611, 231, 405, 568, 317, 183, 643, 641, 609, 485, 278, 20, 170, 401, 694, 566, 176, 327, 198, 470, 632, 266, 615, 492, 130, 338, 639, 489, 572, 606, 193, 140, 416, 476, 152, 673, 10, 269, 96, 210, 742, 569, 548, 709, 532, 701, 332, 75, 77, 263, 149, 700, 514, 706, 469, 564, 461, 253, 369, 321, 151, 302, 190, 586, 348, 243, 87, 655, 683, 418, 288, 648, 166, 595, 704, 155, 356, 381, 279, 126, 22, 616, 665, 282, 471, 367, 25, 196, 64, 15, 466, 297, 621, 336, 26, 588, 43, 497, 515, 719, 561, 454, 387, 71, 542, 456, 633, 431, 627, 653, 264, 209, 316, 513, 313, 534, 319, 7, 393, 141, 86, 478, 503, 215, 580, 562, 398, 668, 490, 252, 468, 357, 254, 276, 178, 281, 390, 508, 583, 129, 144, 645, 715, 72, 235, 37]
+
+
+ phase 1 have 318 old classes
+=> Loaded checkpoint 'logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/phase1_model_best.pth.tar'
+phase:1 input id:100,input image:1887
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 12.108957767486572
+eps for cluster: 0.071
+Clustering and labeling...
+
+ Clustered into 114 classes 
+
+in phase 1:epoch 0 : in_features: 2048 out_features: 318
+###############################
+Lamda for less forget is set to  16.70171752907624
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\project\ABMT-master - change\abmt\loss\triplet.py:13: UserWarning: This overload of addmm_ is deprecated:
+	addmm_(Number beta, Number alpha, Tensor mat1, Tensor mat2)
+Consider using one of the following signatures instead:
+	addmm_(Tensor mat1, Tensor mat2, *, Number beta, Number alpha) (Triggered internally at  ..\torch\csrc\utils\python_arg_parser.cpp:882.)
+  dist.addmm_(1, -2, x, y.t())
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [0][20/200]	Time 1.527 (3.780)	Data 0.000 (2.237)	Loss_ce 1.211 / 1.328	Loss_ce_soft 0.472 / 0.944	Loss_tri_soft 0.286 / 0.243	Loss_lf 3.442 / 1.325	Loss_lf_tri 0.252 / 0.217	Prec 98.44% / 97.19%	
+Epoch: [0][40/200]	Time 1.582 (3.711)	Data 0.000 (2.214)	Loss_ce 1.191 / 1.324	Loss_ce_soft 0.468 / 0.980	Loss_tri_soft 0.274 / 0.260	Loss_lf 3.464 / 1.352	Loss_lf_tri 0.248 / 0.226	Prec 98.12% / 96.95%	
+Epoch: [0][60/200]	Time 1.450 (5.211)	Data 0.000 (2.974)	Loss_ce 1.190 / 1.310	Loss_ce_soft 0.479 / 0.989	Loss_tri_soft 0.276 / 0.265	Loss_lf 3.493 / 1.316	Loss_lf_tri 0.253 / 0.231	Prec 98.23% / 96.98%	
+Epoch: [0][80/200]	Time 1.498 (4.826)	Data 0.001 (2.786)	Loss_ce 1.183 / 1.306	Loss_ce_soft 0.483 / 0.972	Loss_tri_soft 0.273 / 0.264	Loss_lf 3.498 / 1.314	Loss_lf_tri 0.255 / 0.233	Prec 97.97% / 97.07%	
+Epoch: [0][100/200]	Time 1.508 (5.054)	Data 0.000 (3.129)	Loss_ce 1.173 / 1.311	Loss_ce_soft 0.478 / 0.988	Loss_tri_soft 0.268 / 0.264	Loss_lf 3.509 / 1.359	Loss_lf_tri 0.254 / 0.235	Prec 98.12% / 96.81%	
+Epoch: [0][120/200]	Time 1.473 (5.208)	Data 0.000 (2.986)	Loss_ce 1.168 / 1.309	Loss_ce_soft 0.479 / 0.986	Loss_tri_soft 0.265 / 0.268	Loss_lf 3.512 / 1.399	Loss_lf_tri 0.255 / 0.240	Prec 98.07% / 96.90%	
+Epoch: [0][140/200]	Time 1.413 (4.999)	Data 0.000 (2.884)	Loss_ce 1.163 / 1.305	Loss_ce_soft 0.473 / 0.977	Loss_tri_soft 0.262 / 0.260	Loss_lf 3.513 / 1.387	Loss_lf_tri 0.255 / 0.235	Prec 98.08% / 96.99%	
+Epoch: [0][160/200]	Time 1.513 (5.122)	Data 0.000 (3.089)	Loss_ce 1.157 / 1.301	Loss_ce_soft 0.474 / 0.960	Loss_tri_soft 0.263 / 0.254	Loss_lf 3.518 / 1.379	Loss_lf_tri 0.258 / 0.232	Prec 98.16% / 97.01%	
+Epoch: [0][180/200]	Time 1.511 (5.218)	Data 0.001 (2.997)	Loss_ce 1.155 / 1.298	Loss_ce_soft 0.472 / 0.952	Loss_tri_soft 0.262 / 0.251	Loss_lf 3.517 / 1.383	Loss_lf_tri 0.259 / 0.231	Prec 98.25% / 97.07%	
+Epoch: [0][200/200]	Time 1.443 (5.296)	Data 0.000 (3.152)	Loss_ce 1.150 / 1.294	Loss_ce_soft 0.468 / 0.945	Loss_tri_soft 0.262 / 0.250	Loss_lf 3.519 / 1.381	Loss_lf_tri 0.261 / 0.231	Prec 98.28% / 97.09%	
+Extract Features: [50/151]	Time 0.228 (1.223)	Data 0.000 (0.982)	
+Extract Features: [100/151]	Time 0.226 (0.742)	Data 0.000 (0.501)	
+Extract Features: [150/151]	Time 0.265 (0.581)	Data 0.000 (0.340)	
+Mean AP: 56.5%
+
+ * Finished phase   1 epoch   0  model no.1 mAP: 56.5%  best: 56.5% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 12.432507514953613
+Clustering and labeling...
+
+ Clustered into 113 classes 
+
+###############################
+Lamda for less forget is set to  16.775456154857306
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [1][20/200]	Time 1.443 (3.754)	Data 0.000 (2.298)	Loss_ce 1.187 / 1.313	Loss_ce_soft 0.411 / 0.908	Loss_tri_soft 0.229 / 0.247	Loss_lf 3.545 / 1.391	Loss_lf_tri 0.242 / 0.247	Prec 98.12% / 96.41%	
+Epoch: [1][40/200]	Time 1.452 (3.720)	Data 0.000 (2.267)	Loss_ce 1.176 / 1.312	Loss_ce_soft 0.404 / 0.920	Loss_tri_soft 0.249 / 0.250	Loss_lf 3.567 / 1.429	Loss_lf_tri 0.255 / 0.247	Prec 97.97% / 96.64%	
+Epoch: [1][60/200]	Time 1.430 (5.228)	Data 0.000 (3.010)	Loss_ce 1.168 / 1.298	Loss_ce_soft 0.394 / 0.892	Loss_tri_soft 0.241 / 0.240	Loss_lf 3.586 / 1.430	Loss_lf_tri 0.253 / 0.238	Prec 97.92% / 97.08%	
+Epoch: [1][80/200]	Time 1.502 (4.842)	Data 0.000 (2.812)	Loss_ce 1.159 / 1.288	Loss_ce_soft 0.387 / 0.877	Loss_tri_soft 0.239 / 0.237	Loss_lf 3.591 / 1.431	Loss_lf_tri 0.255 / 0.236	Prec 98.28% / 97.38%	
+Epoch: [1][100/200]	Time 1.478 (5.082)	Data 0.000 (3.167)	Loss_ce 1.153 / 1.281	Loss_ce_soft 0.380 / 0.858	Loss_tri_soft 0.234 / 0.229	Loss_lf 3.577 / 1.421	Loss_lf_tri 0.253 / 0.231	Prec 98.41% / 97.59%	
+Epoch: [1][120/200]	Time 1.439 (5.215)	Data 0.000 (3.011)	Loss_ce 1.150 / 1.278	Loss_ce_soft 0.378 / 0.846	Loss_tri_soft 0.231 / 0.223	Loss_lf 3.568 / 1.412	Loss_lf_tri 0.253 / 0.226	Prec 98.41% / 97.53%	
+Epoch: [1][140/200]	Time 1.467 (4.996)	Data 0.000 (2.897)	Loss_ce 1.147 / 1.279	Loss_ce_soft 0.374 / 0.847	Loss_tri_soft 0.228 / 0.225	Loss_lf 3.560 / 1.401	Loss_lf_tri 0.251 / 0.229	Prec 98.42% / 97.50%	
+Epoch: [1][160/200]	Time 44.768 (5.382)	Data 0.000 (3.090)	Loss_ce 1.145 / 1.276	Loss_ce_soft 0.375 / 0.839	Loss_tri_soft 0.230 / 0.222	Loss_lf 3.559 / 1.395	Loss_lf_tri 0.254 / 0.226	Prec 98.42% / 97.52%	
+Epoch: [1][180/200]	Time 1.431 (5.186)	Data 0.000 (2.986)	Loss_ce 1.142 / 1.277	Loss_ce_soft 0.372 / 0.844	Loss_tri_soft 0.227 / 0.219	Loss_lf 3.553 / 1.408	Loss_lf_tri 0.253 / 0.225	Prec 98.47% / 97.50%	
+Epoch: [1][200/200]	Time 1.540 (5.245)	Data 0.000 (3.119)	Loss_ce 1.138 / 1.274	Loss_ce_soft 0.370 / 0.837	Loss_tri_soft 0.224 / 0.219	Loss_lf 3.555 / 1.412	Loss_lf_tri 0.250 / 0.226	Prec 98.52% / 97.52%	
+Extract Features: [50/151]	Time 0.366 (1.145)	Data 0.000 (0.914)	
+Extract Features: [100/151]	Time 0.223 (0.685)	Data 0.000 (0.457)	
+Extract Features: [150/151]	Time 0.256 (0.535)	Data 0.000 (0.305)	
+Mean AP: 57.2%
+
+ * Finished phase   1 epoch   1  model no.1 mAP: 57.2%  best: 57.2% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.664613485336304
+Clustering and labeling...
+
+ Clustered into 126 classes 
+
+###############################
+Lamda for less forget is set to  15.886502207249789
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [2][20/200]	Time 1.444 (3.579)	Data 0.000 (2.121)	Loss_ce 1.182 / 1.302	Loss_ce_soft 0.351 / 0.825	Loss_tri_soft 0.218 / 0.231	Loss_lf 3.560 / 1.430	Loss_lf_tri 0.256 / 0.245	Prec 98.59% / 96.25%	
+Epoch: [2][40/200]	Time 1.478 (3.593)	Data 0.000 (2.135)	Loss_ce 1.170 / 1.296	Loss_ce_soft 0.360 / 0.810	Loss_tri_soft 0.223 / 0.207	Loss_lf 3.589 / 1.455	Loss_lf_tri 0.259 / 0.223	Prec 98.44% / 96.72%	
+Epoch: [2][60/200]	Time 1.498 (4.320)	Data 0.000 (2.135)	Loss_ce 1.165 / 1.288	Loss_ce_soft 0.368 / 0.796	Loss_tri_soft 0.214 / 0.205	Loss_lf 3.581 / 1.409	Loss_lf_tri 0.253 / 0.219	Prec 98.49% / 96.82%	
+Epoch: [2][80/200]	Time 1.506 (4.670)	Data 0.000 (2.666)	Loss_ce 1.158 / 1.286	Loss_ce_soft 0.368 / 0.799	Loss_tri_soft 0.214 / 0.208	Loss_lf 3.571 / 1.429	Loss_lf_tri 0.251 / 0.226	Prec 98.55% / 97.11%	
+Epoch: [2][100/200]	Time 1.431 (4.467)	Data 0.001 (2.572)	Loss_ce 1.152 / 1.280	Loss_ce_soft 0.369 / 0.790	Loss_tri_soft 0.214 / 0.207	Loss_lf 3.579 / 1.419	Loss_lf_tri 0.250 / 0.223	Prec 98.59% / 97.09%	
+Epoch: [2][120/200]	Time 1.481 (4.699)	Data 0.000 (2.513)	Loss_ce 1.150 / 1.277	Loss_ce_soft 0.365 / 0.784	Loss_tri_soft 0.214 / 0.210	Loss_lf 3.575 / 1.456	Loss_lf_tri 0.253 / 0.227	Prec 98.67% / 97.27%	
+Epoch: [2][140/200]	Time 1.466 (4.859)	Data 0.000 (2.776)	Loss_ce 1.147 / 1.270	Loss_ce_soft 0.366 / 0.768	Loss_tri_soft 0.215 / 0.203	Loss_lf 3.566 / 1.431	Loss_lf_tri 0.253 / 0.221	Prec 98.68% / 97.59%	
+Epoch: [2][160/200]	Time 1.435 (4.702)	Data 0.000 (2.696)	Loss_ce 1.145 / 1.266	Loss_ce_soft 0.370 / 0.762	Loss_tri_soft 0.218 / 0.201	Loss_lf 3.568 / 1.433	Loss_lf_tri 0.258 / 0.219	Prec 98.75% / 97.62%	
+Epoch: [2][180/200]	Time 1.495 (4.828)	Data 0.000 (2.636)	Loss_ce 1.142 / 1.261	Loss_ce_soft 0.364 / 0.759	Loss_tri_soft 0.218 / 0.201	Loss_lf 3.562 / 1.424	Loss_lf_tri 0.259 / 0.219	Prec 98.78% / 97.74%	
+Epoch: [2][200/200]	Time 1.418 (4.925)	Data 0.001 (2.806)	Loss_ce 1.140 / 1.261	Loss_ce_soft 0.370 / 0.758	Loss_tri_soft 0.222 / 0.200	Loss_lf 3.558 / 1.435	Loss_lf_tri 0.262 / 0.219	Prec 98.80% / 97.75%	
+Extract Features: [50/151]	Time 0.227 (1.111)	Data 0.000 (0.880)	
+Extract Features: [100/151]	Time 0.221 (0.669)	Data 0.000 (0.440)	
+Extract Features: [150/151]	Time 0.249 (0.524)	Data 0.000 (0.293)	
+Mean AP: 57.8%
+
+ * Finished phase   1 epoch   2  model no.1 mAP: 57.8%  best: 57.8% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.142667293548584
+Clustering and labeling...
+
+ Clustered into 126 classes 
+
+###############################
+Lamda for less forget is set to  15.886502207249789
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [3][20/200]	Time 1.474 (3.666)	Data 0.000 (2.185)	Loss_ce 1.208 / 1.284	Loss_ce_soft 0.368 / 0.814	Loss_tri_soft 0.252 / 0.203	Loss_lf 3.586 / 1.463	Loss_lf_tri 0.288 / 0.223	Prec 98.44% / 96.88%	
+Epoch: [3][40/200]	Time 1.457 (3.650)	Data 0.001 (2.182)	Loss_ce 1.196 / 1.285	Loss_ce_soft 0.360 / 0.780	Loss_tri_soft 0.234 / 0.185	Loss_lf 3.542 / 1.411	Loss_lf_tri 0.271 / 0.212	Prec 98.20% / 96.88%	
+Epoch: [3][60/200]	Time 1.432 (4.380)	Data 0.000 (2.183)	Loss_ce 1.188 / 1.283	Loss_ce_soft 0.369 / 0.767	Loss_tri_soft 0.220 / 0.188	Loss_lf 3.530 / 1.454	Loss_lf_tri 0.262 / 0.215	Prec 98.23% / 97.19%	
+Epoch: [3][80/200]	Time 1.482 (4.737)	Data 0.000 (2.723)	Loss_ce 1.179 / 1.273	Loss_ce_soft 0.361 / 0.761	Loss_tri_soft 0.214 / 0.181	Loss_lf 3.529 / 1.465	Loss_lf_tri 0.259 / 0.210	Prec 98.36% / 97.38%	
+Epoch: [3][100/200]	Time 1.453 (4.523)	Data 0.000 (2.614)	Loss_ce 1.174 / 1.269	Loss_ce_soft 0.357 / 0.760	Loss_tri_soft 0.209 / 0.188	Loss_lf 3.524 / 1.445	Loss_lf_tri 0.255 / 0.217	Prec 98.41% / 97.69%	
+Epoch: [3][120/200]	Time 1.472 (4.741)	Data 0.000 (2.543)	Loss_ce 1.170 / 1.265	Loss_ce_soft 0.357 / 0.762	Loss_tri_soft 0.210 / 0.188	Loss_lf 3.519 / 1.441	Loss_lf_tri 0.255 / 0.217	Prec 98.52% / 97.73%	
+Epoch: [3][140/200]	Time 1.471 (4.889)	Data 0.000 (2.796)	Loss_ce 1.166 / 1.263	Loss_ce_soft 0.366 / 0.755	Loss_tri_soft 0.212 / 0.191	Loss_lf 3.527 / 1.433	Loss_lf_tri 0.259 / 0.220	Prec 98.37% / 97.83%	
+Epoch: [3][160/200]	Time 1.489 (4.738)	Data 0.000 (2.723)	Loss_ce 1.163 / 1.264	Loss_ce_soft 0.367 / 0.759	Loss_tri_soft 0.211 / 0.191	Loss_lf 3.517 / 1.439	Loss_lf_tri 0.258 / 0.221	Prec 98.40% / 97.79%	
+Epoch: [3][180/200]	Time 1.531 (4.859)	Data 0.000 (2.661)	Loss_ce 1.160 / 1.264	Loss_ce_soft 0.367 / 0.757	Loss_tri_soft 0.210 / 0.191	Loss_lf 3.520 / 1.421	Loss_lf_tri 0.258 / 0.221	Prec 98.40% / 97.76%	
+Epoch: [3][200/200]	Time 1.469 (4.953)	Data 0.000 (2.828)	Loss_ce 1.158 / 1.261	Loss_ce_soft 0.367 / 0.751	Loss_tri_soft 0.207 / 0.190	Loss_lf 3.516 / 1.424	Loss_lf_tri 0.258 / 0.220	Prec 98.38% / 97.81%	
+Extract Features: [50/151]	Time 0.243 (1.110)	Data 0.001 (0.875)	
+Extract Features: [100/151]	Time 0.222 (0.668)	Data 0.000 (0.438)	
+Extract Features: [150/151]	Time 0.241 (0.522)	Data 0.000 (0.292)	
+Mean AP: 57.6%
+
+ * Finished phase   1 epoch   3  model no.1 mAP: 57.6%  best: 57.8%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.811567068099976
+Clustering and labeling...
+
+ Clustered into 124 classes 
+
+###############################
+Lamda for less forget is set to  16.014106684521177
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [4][20/200]	Time 1.526 (3.644)	Data 0.000 (2.170)	Loss_ce 1.188 / 1.280	Loss_ce_soft 0.370 / 0.757	Loss_tri_soft 0.222 / 0.192	Loss_lf 3.678 / 1.517	Loss_lf_tri 0.283 / 0.223	Prec 97.97% / 97.34%	
+Epoch: [4][40/200]	Time 1.541 (3.661)	Data 0.000 (2.178)	Loss_ce 1.181 / 1.265	Loss_ce_soft 0.348 / 0.736	Loss_tri_soft 0.201 / 0.193	Loss_lf 3.595 / 1.450	Loss_lf_tri 0.260 / 0.225	Prec 98.59% / 98.05%	
+Epoch: [4][60/200]	Time 1.438 (4.400)	Data 0.000 (2.179)	Loss_ce 1.171 / 1.267	Loss_ce_soft 0.354 / 0.734	Loss_tri_soft 0.185 / 0.204	Loss_lf 3.557 / 1.442	Loss_lf_tri 0.247 / 0.231	Prec 98.65% / 97.92%	
+Epoch: [4][80/200]	Time 1.484 (4.772)	Data 0.000 (2.742)	Loss_ce 1.165 / 1.263	Loss_ce_soft 0.351 / 0.731	Loss_tri_soft 0.189 / 0.200	Loss_lf 3.563 / 1.429	Loss_lf_tri 0.247 / 0.227	Prec 98.55% / 98.05%	
+Epoch: [4][100/200]	Time 1.467 (4.555)	Data 0.001 (2.634)	Loss_ce 1.160 / 1.260	Loss_ce_soft 0.344 / 0.732	Loss_tri_soft 0.182 / 0.193	Loss_lf 3.545 / 1.435	Loss_lf_tri 0.243 / 0.223	Prec 98.62% / 97.91%	
+Epoch: [4][120/200]	Time 1.507 (4.770)	Data 0.000 (2.554)	Loss_ce 1.155 / 1.259	Loss_ce_soft 0.349 / 0.735	Loss_tri_soft 0.188 / 0.191	Loss_lf 3.548 / 1.436	Loss_lf_tri 0.247 / 0.223	Prec 98.67% / 97.99%	
+Epoch: [4][140/200]	Time 1.479 (4.918)	Data 0.001 (2.810)	Loss_ce 1.151 / 1.261	Loss_ce_soft 0.346 / 0.740	Loss_tri_soft 0.189 / 0.190	Loss_lf 3.553 / 1.430	Loss_lf_tri 0.250 / 0.223	Prec 98.68% / 97.88%	
+Epoch: [4][160/200]	Time 1.484 (4.760)	Data 0.000 (2.731)	Loss_ce 1.147 / 1.257	Loss_ce_soft 0.345 / 0.729	Loss_tri_soft 0.189 / 0.192	Loss_lf 3.550 / 1.420	Loss_lf_tri 0.250 / 0.224	Prec 98.63% / 97.91%	
+Epoch: [4][180/200]	Time 1.457 (4.882)	Data 0.000 (2.672)	Loss_ce 1.143 / 1.254	Loss_ce_soft 0.343 / 0.726	Loss_tri_soft 0.189 / 0.194	Loss_lf 3.555 / 1.416	Loss_lf_tri 0.250 / 0.226	Prec 98.65% / 97.97%	
+Epoch: [4][200/200]	Time 1.440 (4.970)	Data 0.000 (2.834)	Loss_ce 1.141 / 1.253	Loss_ce_soft 0.342 / 0.725	Loss_tri_soft 0.190 / 0.191	Loss_lf 3.547 / 1.432	Loss_lf_tri 0.251 / 0.225	Prec 98.62% / 97.98%	
+Extract Features: [50/151]	Time 0.218 (1.118)	Data 0.000 (0.888)	
+Extract Features: [100/151]	Time 0.222 (0.675)	Data 0.000 (0.444)	
+Extract Features: [150/151]	Time 0.236 (0.526)	Data 0.000 (0.296)	
+Mean AP: 58.5%
+
+ * Finished phase   1 epoch   4  model no.1 mAP: 58.5%  best: 58.5% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.612080812454224
+Clustering and labeling...
+
+ Clustered into 124 classes 
+
+###############################
+Lamda for less forget is set to  16.014106684521177
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [5][20/200]	Time 1.520 (3.602)	Data 0.000 (2.135)	Loss_ce 1.213 / 1.262	Loss_ce_soft 0.401 / 0.655	Loss_tri_soft 0.198 / 0.155	Loss_lf 3.531 / 1.400	Loss_lf_tri 0.256 / 0.182	Prec 97.19% / 97.97%	
+Epoch: [5][40/200]	Time 1.542 (3.607)	Data 0.000 (2.147)	Loss_ce 1.193 / 1.264	Loss_ce_soft 0.405 / 0.706	Loss_tri_soft 0.194 / 0.167	Loss_lf 3.577 / 1.400	Loss_lf_tri 0.249 / 0.198	Prec 97.66% / 98.05%	
+Epoch: [5][60/200]	Time 1.425 (4.368)	Data 0.000 (2.165)	Loss_ce 1.183 / 1.261	Loss_ce_soft 0.406 / 0.715	Loss_tri_soft 0.206 / 0.177	Loss_lf 3.581 / 1.405	Loss_lf_tri 0.264 / 0.210	Prec 98.02% / 97.92%	
+Epoch: [5][80/200]	Time 1.436 (4.737)	Data 0.000 (2.719)	Loss_ce 1.178 / 1.260	Loss_ce_soft 0.402 / 0.722	Loss_tri_soft 0.204 / 0.180	Loss_lf 3.572 / 1.408	Loss_lf_tri 0.262 / 0.212	Prec 98.12% / 97.81%	
+Epoch: [5][100/200]	Time 1.495 (4.519)	Data 0.000 (2.610)	Loss_ce 1.170 / 1.259	Loss_ce_soft 0.395 / 0.718	Loss_tri_soft 0.203 / 0.186	Loss_lf 3.583 / 1.442	Loss_lf_tri 0.262 / 0.217	Prec 98.22% / 97.78%	
+Epoch: [5][120/200]	Time 1.462 (4.735)	Data 0.000 (2.540)	Loss_ce 1.170 / 1.258	Loss_ce_soft 0.397 / 0.713	Loss_tri_soft 0.203 / 0.192	Loss_lf 3.572 / 1.428	Loss_lf_tri 0.264 / 0.221	Prec 98.07% / 97.79%	
+Epoch: [5][140/200]	Time 1.469 (4.883)	Data 0.000 (2.792)	Loss_ce 1.165 / 1.258	Loss_ce_soft 0.401 / 0.722	Loss_tri_soft 0.206 / 0.193	Loss_lf 3.582 / 1.429	Loss_lf_tri 0.265 / 0.223	Prec 98.15% / 97.72%	
+Epoch: [5][160/200]	Time 1.501 (4.725)	Data 0.000 (2.711)	Loss_ce 1.162 / 1.257	Loss_ce_soft 0.398 / 0.717	Loss_tri_soft 0.201 / 0.194	Loss_lf 3.578 / 1.427	Loss_lf_tri 0.260 / 0.225	Prec 98.24% / 97.83%	
+Epoch: [5][180/200]	Time 1.437 (4.838)	Data 0.001 (2.650)	Loss_ce 1.162 / 1.255	Loss_ce_soft 0.396 / 0.714	Loss_tri_soft 0.203 / 0.189	Loss_lf 3.565 / 1.437	Loss_lf_tri 0.262 / 0.221	Prec 98.18% / 97.88%	
+Epoch: [5][200/200]	Time 1.443 (4.932)	Data 0.001 (2.818)	Loss_ce 1.158 / 1.257	Loss_ce_soft 0.393 / 0.718	Loss_tri_soft 0.201 / 0.191	Loss_lf 3.559 / 1.435	Loss_lf_tri 0.261 / 0.224	Prec 98.31% / 97.81%	
+Extract Features: [50/151]	Time 0.230 (1.119)	Data 0.000 (0.886)	
+Extract Features: [100/151]	Time 0.221 (0.672)	Data 0.000 (0.443)	
+Extract Features: [150/151]	Time 0.256 (0.524)	Data 0.000 (0.296)	
+Mean AP: 58.1%
+
+ * Finished phase   1 epoch   5  model no.1 mAP: 58.1%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 12.836878538131714
+Clustering and labeling...
+
+ Clustered into 133 classes 
+
+###############################
+Lamda for less forget is set to  15.46278578914234
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [6][20/200]	Time 1.440 (3.612)	Data 0.000 (2.141)	Loss_ce 1.200 / 1.265	Loss_ce_soft 0.377 / 0.670	Loss_tri_soft 0.184 / 0.180	Loss_lf 3.606 / 1.488	Loss_lf_tri 0.249 / 0.218	Prec 97.97% / 97.66%	
+Epoch: [6][40/200]	Time 1.485 (3.604)	Data 0.000 (2.141)	Loss_ce 1.197 / 1.278	Loss_ce_soft 0.397 / 0.715	Loss_tri_soft 0.187 / 0.185	Loss_lf 3.607 / 1.503	Loss_lf_tri 0.246 / 0.220	Prec 97.97% / 97.11%	
+Epoch: [6][60/200]	Time 1.420 (4.330)	Data 0.000 (2.136)	Loss_ce 1.193 / 1.273	Loss_ce_soft 0.400 / 0.713	Loss_tri_soft 0.199 / 0.178	Loss_lf 3.594 / 1.500	Loss_lf_tri 0.257 / 0.217	Prec 98.28% / 97.45%	
+Epoch: [6][80/200]	Time 1.506 (4.147)	Data 0.000 (2.139)	Loss_ce 1.182 / 1.259	Loss_ce_soft 0.386 / 0.701	Loss_tri_soft 0.189 / 0.170	Loss_lf 3.586 / 1.445	Loss_lf_tri 0.251 / 0.210	Prec 98.44% / 97.77%	
+Epoch: [6][100/200]	Time 1.703 (4.469)	Data 0.001 (2.568)	Loss_ce 1.174 / 1.254	Loss_ce_soft 0.385 / 0.699	Loss_tri_soft 0.191 / 0.176	Loss_lf 3.604 / 1.447	Loss_lf_tri 0.255 / 0.215	Prec 98.59% / 97.97%	
+Epoch: [6][120/200]	Time 1.471 (4.708)	Data 0.000 (2.510)	Loss_ce 1.169 / 1.253	Loss_ce_soft 0.387 / 0.703	Loss_tri_soft 0.189 / 0.176	Loss_lf 3.592 / 1.459	Loss_lf_tri 0.253 / 0.215	Prec 98.75% / 97.92%	
+Epoch: [6][140/200]	Time 1.459 (4.553)	Data 0.000 (2.461)	Loss_ce 1.165 / 1.252	Loss_ce_soft 0.382 / 0.704	Loss_tri_soft 0.184 / 0.180	Loss_lf 3.587 / 1.471	Loss_lf_tri 0.250 / 0.219	Prec 98.82% / 97.88%	
+Epoch: [6][160/200]	Time 1.466 (4.435)	Data 0.000 (2.419)	Loss_ce 1.162 / 1.249	Loss_ce_soft 0.385 / 0.700	Loss_tri_soft 0.187 / 0.183	Loss_lf 3.586 / 1.462	Loss_lf_tri 0.253 / 0.221	Prec 98.89% / 97.99%	
+Epoch: [6][180/200]	Time 1.423 (4.831)	Data 0.000 (2.634)	Loss_ce 1.159 / 1.248	Loss_ce_soft 0.387 / 0.709	Loss_tri_soft 0.190 / 0.187	Loss_lf 3.583 / 1.468	Loss_lf_tri 0.255 / 0.225	Prec 98.91% / 98.00%	
+Epoch: [6][200/200]	Time 1.464 (4.706)	Data 0.000 (2.583)	Loss_ce 1.157 / 1.249	Loss_ce_soft 0.388 / 0.710	Loss_tri_soft 0.193 / 0.187	Loss_lf 3.586 / 1.473	Loss_lf_tri 0.258 / 0.224	Prec 98.86% / 97.98%	
+Extract Features: [50/151]	Time 0.224 (1.111)	Data 0.001 (0.884)	
+Extract Features: [100/151]	Time 0.221 (0.669)	Data 0.000 (0.442)	
+Extract Features: [150/151]	Time 0.259 (0.525)	Data 0.000 (0.295)	
+Mean AP: 58.1%
+
+ * Finished phase   1 epoch   6  model no.1 mAP: 58.1%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 14.499346017837524
+Clustering and labeling...
+
+ Clustered into 131 classes 
+
+###############################
+Lamda for less forget is set to  15.580375207390013
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [7][20/200]	Time 1.491 (3.622)	Data 0.000 (2.154)	Loss_ce 1.188 / 1.276	Loss_ce_soft 0.355 / 0.778	Loss_tri_soft 0.219 / 0.198	Loss_lf 3.522 / 1.406	Loss_lf_tri 0.288 / 0.234	Prec 98.28% / 97.34%	
+Epoch: [7][40/200]	Time 1.412 (3.620)	Data 0.000 (2.151)	Loss_ce 1.178 / 1.266	Loss_ce_soft 0.368 / 0.729	Loss_tri_soft 0.220 / 0.198	Loss_lf 3.589 / 1.474	Loss_lf_tri 0.285 / 0.236	Prec 98.12% / 97.50%	
+Epoch: [7][60/200]	Time 1.448 (4.351)	Data 0.000 (2.152)	Loss_ce 1.171 / 1.260	Loss_ce_soft 0.368 / 0.727	Loss_tri_soft 0.209 / 0.190	Loss_lf 3.575 / 1.468	Loss_lf_tri 0.275 / 0.230	Prec 98.39% / 97.50%	
+Epoch: [7][80/200]	Time 1.466 (4.164)	Data 0.000 (2.148)	Loss_ce 1.167 / 1.251	Loss_ce_soft 0.367 / 0.708	Loss_tri_soft 0.203 / 0.183	Loss_lf 3.577 / 1.448	Loss_lf_tri 0.272 / 0.224	Prec 98.55% / 97.85%	
+Epoch: [7][100/200]	Time 1.394 (4.487)	Data 0.001 (2.580)	Loss_ce 1.162 / 1.251	Loss_ce_soft 0.359 / 0.705	Loss_tri_soft 0.201 / 0.185	Loss_lf 3.574 / 1.470	Loss_lf_tri 0.271 / 0.225	Prec 98.69% / 97.88%	
+Epoch: [7][120/200]	Time 1.453 (4.707)	Data 0.000 (2.507)	Loss_ce 1.157 / 1.251	Loss_ce_soft 0.364 / 0.706	Loss_tri_soft 0.200 / 0.184	Loss_lf 3.577 / 1.468	Loss_lf_tri 0.270 / 0.224	Prec 98.57% / 97.81%	
+Epoch: [7][140/200]	Time 1.414 (4.543)	Data 0.001 (2.455)	Loss_ce 1.153 / 1.249	Loss_ce_soft 0.365 / 0.701	Loss_tri_soft 0.200 / 0.182	Loss_lf 3.576 / 1.484	Loss_lf_tri 0.269 / 0.221	Prec 98.59% / 97.77%	
+Epoch: [7][160/200]	Time 1.377 (4.410)	Data 0.000 (2.406)	Loss_ce 1.149 / 1.247	Loss_ce_soft 0.365 / 0.696	Loss_tri_soft 0.196 / 0.181	Loss_lf 3.580 / 1.477	Loss_lf_tri 0.267 / 0.221	Prec 98.69% / 97.83%	
+Epoch: [7][180/200]	Time 1.375 (4.774)	Data 0.000 (2.604)	Loss_ce 1.146 / 1.248	Loss_ce_soft 0.364 / 0.700	Loss_tri_soft 0.197 / 0.179	Loss_lf 3.580 / 1.492	Loss_lf_tri 0.268 / 0.220	Prec 98.75% / 97.88%	
+Epoch: [7][200/200]	Time 1.500 (4.657)	Data 0.000 (2.561)	Loss_ce 1.144 / 1.248	Loss_ce_soft 0.364 / 0.702	Loss_tri_soft 0.198 / 0.179	Loss_lf 3.574 / 1.490	Loss_lf_tri 0.269 / 0.222	Prec 98.77% / 97.89%	
+Extract Features: [50/151]	Time 0.226 (1.106)	Data 0.000 (0.875)	
+Extract Features: [100/151]	Time 0.221 (0.666)	Data 0.000 (0.438)	
+Extract Features: [150/151]	Time 0.255 (0.523)	Data 0.000 (0.292)	
+Mean AP: 58.2%
+
+ * Finished phase   1 epoch   7  model no.1 mAP: 58.2%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.86454963684082
+Clustering and labeling...
+
+ Clustered into 137 classes 
+
+###############################
+Lamda for less forget is set to  15.235379493834994
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [8][20/200]	Time 1.505 (3.628)	Data 0.001 (2.174)	Loss_ce 1.220 / 1.253	Loss_ce_soft 0.366 / 0.723	Loss_tri_soft 0.172 / 0.187	Loss_lf 3.555 / 1.619	Loss_lf_tri 0.240 / 0.242	Prec 97.03% / 98.91%	
+Epoch: [8][40/200]	Time 1.444 (3.648)	Data 0.000 (2.183)	Loss_ce 1.195 / 1.253	Loss_ce_soft 0.361 / 0.685	Loss_tri_soft 0.188 / 0.174	Loss_lf 3.592 / 1.482	Loss_lf_tri 0.260 / 0.226	Prec 98.05% / 98.44%	
+Epoch: [8][60/200]	Time 1.521 (4.386)	Data 0.000 (2.189)	Loss_ce 1.188 / 1.255	Loss_ce_soft 0.366 / 0.686	Loss_tri_soft 0.185 / 0.176	Loss_lf 3.583 / 1.511	Loss_lf_tri 0.258 / 0.224	Prec 98.33% / 98.23%	
+Epoch: [8][80/200]	Time 1.448 (4.190)	Data 0.000 (2.174)	Loss_ce 1.180 / 1.251	Loss_ce_soft 0.362 / 0.687	Loss_tri_soft 0.183 / 0.177	Loss_lf 3.581 / 1.487	Loss_lf_tri 0.257 / 0.226	Prec 98.48% / 98.09%	
+Epoch: [8][100/200]	Time 1.535 (4.075)	Data 0.000 (2.171)	Loss_ce 1.174 / 1.252	Loss_ce_soft 0.363 / 0.692	Loss_tri_soft 0.188 / 0.175	Loss_lf 3.575 / 1.509	Loss_lf_tri 0.259 / 0.224	Prec 98.47% / 97.88%	
+Epoch: [8][120/200]	Time 45.237 (4.723)	Data 43.862 (2.538)	Loss_ce 1.170 / 1.249	Loss_ce_soft 0.367 / 0.684	Loss_tri_soft 0.193 / 0.174	Loss_lf 3.571 / 1.509	Loss_lf_tri 0.267 / 0.222	Prec 98.49% / 97.89%	
+Epoch: [8][140/200]	Time 1.484 (4.564)	Data 0.000 (2.482)	Loss_ce 1.168 / 1.249	Loss_ce_soft 0.368 / 0.686	Loss_tri_soft 0.193 / 0.173	Loss_lf 3.567 / 1.519	Loss_lf_tri 0.267 / 0.221	Prec 98.55% / 97.86%	
+Epoch: [8][160/200]	Time 1.500 (4.445)	Data 0.000 (2.439)	Loss_ce 1.165 / 1.247	Loss_ce_soft 0.369 / 0.683	Loss_tri_soft 0.193 / 0.173	Loss_lf 3.571 / 1.505	Loss_lf_tri 0.268 / 0.221	Prec 98.46% / 97.91%	
+Epoch: [8][180/200]	Time 1.435 (4.586)	Data 0.000 (2.400)	Loss_ce 1.164 / 1.247	Loss_ce_soft 0.371 / 0.680	Loss_tri_soft 0.195 / 0.175	Loss_lf 3.575 / 1.494	Loss_lf_tri 0.270 / 0.223	Prec 98.44% / 97.88%	
+Epoch: [8][200/200]	Time 1.435 (4.490)	Data 0.000 (2.378)	Loss_ce 1.160 / 1.246	Loss_ce_soft 0.373 / 0.682	Loss_tri_soft 0.192 / 0.175	Loss_lf 3.577 / 1.488	Loss_lf_tri 0.268 / 0.223	Prec 98.48% / 97.81%	
+Extract Features: [50/151]	Time 0.222 (1.125)	Data 0.000 (0.896)	
+Extract Features: [100/151]	Time 0.222 (0.678)	Data 0.000 (0.448)	
+Extract Features: [150/151]	Time 0.256 (0.528)	Data 0.000 (0.299)	
+Mean AP: 58.4%
+
+ * Finished phase   1 epoch   8  model no.1 mAP: 58.4%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.722594261169434
+Clustering and labeling...
+
+ Clustered into 132 classes 
+
+###############################
+Lamda for less forget is set to  15.521246435421702
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [9][20/200]	Time 1.422 (3.659)	Data 0.000 (2.178)	Loss_ce 1.196 / 1.250	Loss_ce_soft 0.350 / 0.689	Loss_tri_soft 0.178 / 0.223	Loss_lf 3.561 / 1.498	Loss_lf_tri 0.255 / 0.252	Prec 97.97% / 98.44%	
+Epoch: [9][40/200]	Time 1.454 (3.640)	Data 0.000 (2.169)	Loss_ce 1.180 / 1.257	Loss_ce_soft 0.348 / 0.724	Loss_tri_soft 0.186 / 0.199	Loss_lf 3.614 / 1.582	Loss_lf_tri 0.260 / 0.237	Prec 98.44% / 97.97%	
+Epoch: [9][60/200]	Time 1.516 (4.349)	Data 0.000 (2.162)	Loss_ce 1.181 / 1.252	Loss_ce_soft 0.374 / 0.723	Loss_tri_soft 0.206 / 0.192	Loss_lf 3.605 / 1.537	Loss_lf_tri 0.283 / 0.238	Prec 98.18% / 97.97%	
+Epoch: [9][80/200]	Time 1.500 (4.177)	Data 0.000 (2.166)	Loss_ce 1.174 / 1.252	Loss_ce_soft 0.364 / 0.701	Loss_tri_soft 0.200 / 0.184	Loss_lf 3.604 / 1.514	Loss_lf_tri 0.279 / 0.231	Prec 98.36% / 97.89%	
+Epoch: [9][100/200]	Time 1.516 (4.505)	Data 0.000 (2.604)	Loss_ce 1.168 / 1.249	Loss_ce_soft 0.363 / 0.690	Loss_tri_soft 0.194 / 0.176	Loss_lf 3.602 / 1.493	Loss_lf_tri 0.275 / 0.224	Prec 98.44% / 98.09%	
+Epoch: [9][120/200]	Time 1.469 (4.742)	Data 0.000 (2.539)	Loss_ce 1.162 / 1.247	Loss_ce_soft 0.361 / 0.683	Loss_tri_soft 0.197 / 0.173	Loss_lf 3.600 / 1.503	Loss_lf_tri 0.279 / 0.222	Prec 98.52% / 98.07%	
+Epoch: [9][140/200]	Time 1.428 (4.586)	Data 0.000 (2.489)	Loss_ce 1.158 / 1.244	Loss_ce_soft 0.361 / 0.674	Loss_tri_soft 0.198 / 0.172	Loss_lf 3.594 / 1.460	Loss_lf_tri 0.280 / 0.223	Prec 98.55% / 98.10%	
+Epoch: [9][160/200]	Time 1.483 (4.473)	Data 0.000 (2.453)	Loss_ce 1.154 / 1.243	Loss_ce_soft 0.361 / 0.679	Loss_tri_soft 0.198 / 0.168	Loss_lf 3.597 / 1.462	Loss_lf_tri 0.281 / 0.221	Prec 98.52% / 98.14%	
+Epoch: [9][180/200]	Time 1.432 (4.867)	Data 0.001 (2.667)	Loss_ce 1.151 / 1.240	Loss_ce_soft 0.356 / 0.676	Loss_tri_soft 0.196 / 0.167	Loss_lf 3.593 / 1.483	Loss_lf_tri 0.278 / 0.220	Prec 98.63% / 98.26%	
+Epoch: [9][200/200]	Time 1.772 (4.750)	Data 0.000 (2.625)	Loss_ce 1.150 / 1.239	Loss_ce_soft 0.354 / 0.673	Loss_tri_soft 0.196 / 0.165	Loss_lf 3.586 / 1.489	Loss_lf_tri 0.277 / 0.217	Prec 98.64% / 98.28%	
+Extract Features: [50/151]	Time 0.240 (1.130)	Data 0.001 (0.900)	
+Extract Features: [100/151]	Time 0.221 (0.677)	Data 0.000 (0.450)	
+Extract Features: [150/151]	Time 0.257 (0.528)	Data 0.000 (0.300)	
+Mean AP: 57.9%
+
+ * Finished phase   1 epoch   9  model no.1 mAP: 57.9%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.707057237625122
+Clustering and labeling...
+
+ Clustered into 131 classes 
+
+###############################
+Lamda for less forget is set to  15.580375207390013
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [10][20/200]	Time 1.483 (3.617)	Data 0.000 (2.156)	Loss_ce 1.186 / 1.259	Loss_ce_soft 0.353 / 0.649	Loss_tri_soft 0.203 / 0.148	Loss_lf 3.635 / 1.368	Loss_lf_tri 0.278 / 0.197	Prec 97.81% / 97.34%	
+Epoch: [10][40/200]	Time 1.448 (3.631)	Data 0.000 (2.166)	Loss_ce 1.177 / 1.254	Loss_ce_soft 0.327 / 0.642	Loss_tri_soft 0.185 / 0.170	Loss_lf 3.598 / 1.443	Loss_lf_tri 0.257 / 0.220	Prec 98.59% / 97.34%	
+Epoch: [10][60/200]	Time 1.442 (4.359)	Data 0.000 (2.167)	Loss_ce 1.170 / 1.245	Loss_ce_soft 0.322 / 0.640	Loss_tri_soft 0.181 / 0.170	Loss_lf 3.581 / 1.426	Loss_lf_tri 0.257 / 0.216	Prec 98.70% / 97.86%	
+Epoch: [10][80/200]	Time 1.441 (4.170)	Data 0.001 (2.162)	Loss_ce 1.165 / 1.245	Loss_ce_soft 0.334 / 0.654	Loss_tri_soft 0.185 / 0.177	Loss_lf 3.589 / 1.463	Loss_lf_tri 0.256 / 0.225	Prec 98.48% / 97.85%	
+Epoch: [10][100/200]	Time 1.512 (4.500)	Data 0.000 (2.594)	Loss_ce 1.161 / 1.241	Loss_ce_soft 0.336 / 0.651	Loss_tri_soft 0.190 / 0.177	Loss_lf 3.594 / 1.478	Loss_lf_tri 0.261 / 0.223	Prec 98.41% / 98.12%	
+Epoch: [10][120/200]	Time 1.429 (4.719)	Data 0.000 (2.526)	Loss_ce 1.158 / 1.241	Loss_ce_soft 0.331 / 0.658	Loss_tri_soft 0.180 / 0.174	Loss_lf 3.587 / 1.476	Loss_lf_tri 0.254 / 0.223	Prec 98.54% / 98.05%	
+Epoch: [10][140/200]	Time 1.428 (4.575)	Data 0.000 (2.483)	Loss_ce 1.154 / 1.238	Loss_ce_soft 0.327 / 0.657	Loss_tri_soft 0.175 / 0.171	Loss_lf 3.585 / 1.487	Loss_lf_tri 0.251 / 0.220	Prec 98.53% / 98.19%	
+Epoch: [10][160/200]	Time 1.459 (4.458)	Data 0.000 (2.445)	Loss_ce 1.151 / 1.241	Loss_ce_soft 0.324 / 0.669	Loss_tri_soft 0.173 / 0.178	Loss_lf 3.582 / 1.486	Loss_lf_tri 0.252 / 0.226	Prec 98.54% / 98.11%	
+Epoch: [10][180/200]	Time 1.462 (4.844)	Data 0.000 (2.654)	Loss_ce 1.148 / 1.240	Loss_ce_soft 0.325 / 0.673	Loss_tri_soft 0.174 / 0.180	Loss_lf 3.584 / 1.477	Loss_lf_tri 0.253 / 0.228	Prec 98.61% / 98.14%	
+Epoch: [10][200/200]	Time 1.502 (4.728)	Data 0.000 (2.608)	Loss_ce 1.145 / 1.240	Loss_ce_soft 0.324 / 0.672	Loss_tri_soft 0.175 / 0.179	Loss_lf 3.583 / 1.469	Loss_lf_tri 0.255 / 0.226	Prec 98.69% / 98.11%	
+Extract Features: [50/151]	Time 0.220 (1.114)	Data 0.000 (0.886)	
+Extract Features: [100/151]	Time 0.220 (0.670)	Data 0.001 (0.443)	
+Extract Features: [150/151]	Time 0.245 (0.526)	Data 0.000 (0.295)	
+Mean AP: 58.0%
+
+ * Finished phase   1 epoch  10  model no.1 mAP: 58.0%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 12.839396953582764
+Clustering and labeling...
+
+ Clustered into 127 classes 
+
+###############################
+Lamda for less forget is set to  15.823833315205313
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [11][20/200]	Time 1.452 (3.637)	Data 0.001 (2.205)	Loss_ce 1.181 / 1.270	Loss_ce_soft 0.295 / 0.683	Loss_tri_soft 0.163 / 0.180	Loss_lf 3.566 / 1.624	Loss_lf_tri 0.232 / 0.232	Prec 98.75% / 98.12%	
+Epoch: [11][40/200]	Time 1.549 (3.642)	Data 0.000 (2.189)	Loss_ce 1.181 / 1.247	Loss_ce_soft 0.306 / 0.642	Loss_tri_soft 0.161 / 0.159	Loss_lf 3.573 / 1.534	Loss_lf_tri 0.240 / 0.210	Prec 98.67% / 98.20%	
+Epoch: [11][60/200]	Time 1.543 (4.384)	Data 0.000 (2.187)	Loss_ce 1.173 / 1.243	Loss_ce_soft 0.319 / 0.644	Loss_tri_soft 0.167 / 0.161	Loss_lf 3.583 / 1.462	Loss_lf_tri 0.247 / 0.215	Prec 98.70% / 98.18%	
+Epoch: [11][80/200]	Time 1.504 (4.728)	Data 0.000 (2.716)	Loss_ce 1.167 / 1.240	Loss_ce_soft 0.327 / 0.653	Loss_tri_soft 0.174 / 0.156	Loss_lf 3.581 / 1.472	Loss_lf_tri 0.257 / 0.213	Prec 98.71% / 98.20%	
+Epoch: [11][100/200]	Time 1.561 (4.503)	Data 0.000 (2.599)	Loss_ce 1.160 / 1.240	Loss_ce_soft 0.329 / 0.647	Loss_tri_soft 0.176 / 0.155	Loss_lf 3.569 / 1.459	Loss_lf_tri 0.262 / 0.212	Prec 98.84% / 98.12%	
+Epoch: [11][120/200]	Time 1.469 (4.726)	Data 0.000 (2.531)	Loss_ce 1.155 / 1.239	Loss_ce_soft 0.327 / 0.646	Loss_tri_soft 0.174 / 0.154	Loss_lf 3.567 / 1.453	Loss_lf_tri 0.262 / 0.210	Prec 98.93% / 98.10%	
+Epoch: [11][140/200]	Time 1.436 (4.880)	Data 0.000 (2.793)	Loss_ce 1.151 / 1.235	Loss_ce_soft 0.327 / 0.640	Loss_tri_soft 0.176 / 0.154	Loss_lf 3.572 / 1.466	Loss_lf_tri 0.266 / 0.211	Prec 98.91% / 98.17%	
+Epoch: [11][160/200]	Time 1.471 (4.729)	Data 0.000 (2.719)	Loss_ce 1.147 / 1.236	Loss_ce_soft 0.326 / 0.642	Loss_tri_soft 0.174 / 0.155	Loss_lf 3.566 / 1.452	Loss_lf_tri 0.264 / 0.211	Prec 98.98% / 98.12%	
+Epoch: [11][180/200]	Time 1.478 (4.844)	Data 0.001 (2.656)	Loss_ce 1.144 / 1.234	Loss_ce_soft 0.325 / 0.645	Loss_tri_soft 0.175 / 0.155	Loss_lf 3.570 / 1.452	Loss_lf_tri 0.265 / 0.212	Prec 98.99% / 98.18%	
+Epoch: [11][200/200]	Time 1.413 (4.939)	Data 0.000 (2.823)	Loss_ce 1.141 / 1.233	Loss_ce_soft 0.328 / 0.645	Loss_tri_soft 0.178 / 0.157	Loss_lf 3.572 / 1.444	Loss_lf_tri 0.269 / 0.214	Prec 98.97% / 98.20%	
+Extract Features: [50/151]	Time 0.218 (1.117)	Data 0.000 (0.879)	
+Extract Features: [100/151]	Time 0.222 (0.673)	Data 0.001 (0.440)	
+Extract Features: [150/151]	Time 0.236 (0.526)	Data 0.000 (0.293)	
+Mean AP: 58.2%
+
+ * Finished phase   1 epoch  11  model no.1 mAP: 58.2%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 13.213122844696045
+Clustering and labeling...
+
+ Clustered into 132 classes 
+
+###############################
+Lamda for less forget is set to  15.521246435421702
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [12][20/200]	Time 1.463 (3.668)	Data 0.000 (2.201)	Loss_ce 1.175 / 1.243	Loss_ce_soft 0.305 / 0.638	Loss_tri_soft 0.176 / 0.138	Loss_lf 3.669 / 1.327	Loss_lf_tri 0.264 / 0.194	Prec 98.44% / 98.44%	
+Epoch: [12][40/200]	Time 1.474 (3.668)	Data 0.000 (2.193)	Loss_ce 1.171 / 1.252	Loss_ce_soft 0.316 / 0.667	Loss_tri_soft 0.182 / 0.158	Loss_lf 3.589 / 1.568	Loss_lf_tri 0.268 / 0.213	Prec 98.67% / 97.89%	
+Epoch: [12][60/200]	Time 1.438 (4.384)	Data 0.001 (2.183)	Loss_ce 1.167 / 1.255	Loss_ce_soft 0.319 / 0.675	Loss_tri_soft 0.167 / 0.164	Loss_lf 3.598 / 1.510	Loss_lf_tri 0.256 / 0.223	Prec 98.65% / 97.86%	
+Epoch: [12][80/200]	Time 1.500 (4.199)	Data 0.000 (2.173)	Loss_ce 1.163 / 1.251	Loss_ce_soft 0.317 / 0.667	Loss_tri_soft 0.162 / 0.159	Loss_lf 3.585 / 1.517	Loss_lf_tri 0.253 / 0.215	Prec 98.71% / 98.05%	
+Epoch: [12][100/200]	Time 1.468 (4.516)	Data 0.001 (2.598)	Loss_ce 1.160 / 1.247	Loss_ce_soft 0.318 / 0.662	Loss_tri_soft 0.163 / 0.167	Loss_lf 3.579 / 1.483	Loss_lf_tri 0.254 / 0.222	Prec 98.75% / 98.12%	
+Epoch: [12][120/200]	Time 1.383 (4.724)	Data 0.000 (2.524)	Loss_ce 1.156 / 1.243	Loss_ce_soft 0.323 / 0.652	Loss_tri_soft 0.162 / 0.161	Loss_lf 3.586 / 1.477	Loss_lf_tri 0.253 / 0.218	Prec 98.85% / 98.23%	
+Epoch: [12][140/200]	Time 1.487 (4.565)	Data 0.000 (2.472)	Loss_ce 1.151 / 1.243	Loss_ce_soft 0.328 / 0.648	Loss_tri_soft 0.167 / 0.163	Loss_lf 3.592 / 1.498	Loss_lf_tri 0.257 / 0.220	Prec 98.93% / 98.17%	
+Epoch: [12][160/200]	Time 1.494 (4.455)	Data 0.000 (2.439)	Loss_ce 1.148 / 1.240	Loss_ce_soft 0.330 / 0.646	Loss_tri_soft 0.168 / 0.161	Loss_lf 3.589 / 1.488	Loss_lf_tri 0.259 / 0.218	Prec 98.95% / 98.26%	
+Epoch: [12][180/200]	Time 1.450 (4.847)	Data 0.000 (2.650)	Loss_ce 1.146 / 1.238	Loss_ce_soft 0.331 / 0.647	Loss_tri_soft 0.167 / 0.160	Loss_lf 3.588 / 1.484	Loss_lf_tri 0.258 / 0.218	Prec 98.92% / 98.30%	
+Epoch: [12][200/200]	Time 1.468 (4.728)	Data 0.000 (2.605)	Loss_ce 1.143 / 1.236	Loss_ce_soft 0.330 / 0.646	Loss_tri_soft 0.168 / 0.160	Loss_lf 3.584 / 1.482	Loss_lf_tri 0.259 / 0.218	Prec 98.92% / 98.33%	
+Extract Features: [50/151]	Time 0.225 (1.106)	Data 0.001 (0.870)	
+Extract Features: [100/151]	Time 0.218 (0.666)	Data 0.000 (0.435)	
+Extract Features: [150/151]	Time 0.241 (0.520)	Data 0.001 (0.290)	
+Mean AP: 58.0%
+
+ * Finished phase   1 epoch  12  model no.1 mAP: 58.0%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 12.44322919845581
+Clustering and labeling...
+
+ Clustered into 136 classes 
+
+###############################
+Lamda for less forget is set to  15.291289331242304
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [13][20/200]	Time 1.532 (3.666)	Data 0.000 (2.181)	Loss_ce 1.200 / 1.222	Loss_ce_soft 0.350 / 0.623	Loss_tri_soft 0.164 / 0.156	Loss_lf 3.607 / 1.381	Loss_lf_tri 0.245 / 0.202	Prec 98.91% / 99.06%	
+Epoch: [13][40/200]	Time 1.430 (3.658)	Data 0.000 (2.185)	Loss_ce 1.189 / 1.234	Loss_ce_soft 0.347 / 0.618	Loss_tri_soft 0.163 / 0.168	Loss_lf 3.532 / 1.438	Loss_lf_tri 0.247 / 0.216	Prec 98.44% / 98.67%	
+Epoch: [13][60/200]	Time 1.482 (4.423)	Data 0.000 (2.202)	Loss_ce 1.183 / 1.235	Loss_ce_soft 0.355 / 0.629	Loss_tri_soft 0.175 / 0.166	Loss_lf 3.557 / 1.511	Loss_lf_tri 0.262 / 0.219	Prec 98.39% / 98.65%	
+Epoch: [13][80/200]	Time 1.451 (4.233)	Data 0.000 (2.196)	Loss_ce 1.173 / 1.227	Loss_ce_soft 0.352 / 0.615	Loss_tri_soft 0.174 / 0.166	Loss_lf 3.584 / 1.507	Loss_lf_tri 0.265 / 0.220	Prec 98.55% / 98.71%	
+Epoch: [13][100/200]	Time 1.452 (4.108)	Data 0.000 (2.188)	Loss_ce 1.171 / 1.230	Loss_ce_soft 0.355 / 0.636	Loss_tri_soft 0.181 / 0.165	Loss_lf 3.584 / 1.491	Loss_lf_tri 0.270 / 0.220	Prec 98.41% / 98.62%	
+Epoch: [13][120/200]	Time 41.834 (4.732)	Data 40.489 (2.527)	Loss_ce 1.168 / 1.227	Loss_ce_soft 0.360 / 0.641	Loss_tri_soft 0.179 / 0.165	Loss_lf 3.584 / 1.480	Loss_lf_tri 0.271 / 0.222	Prec 98.44% / 98.70%	
+Epoch: [13][140/200]	Time 1.217 (4.510)	Data 0.001 (2.446)	Loss_ce 1.163 / 1.227	Loss_ce_soft 0.355 / 0.641	Loss_tri_soft 0.179 / 0.166	Loss_lf 3.582 / 1.502	Loss_lf_tri 0.273 / 0.222	Prec 98.48% / 98.66%	
+Epoch: [13][160/200]	Time 1.533 (4.359)	Data 0.000 (2.390)	Loss_ce 1.158 / 1.224	Loss_ce_soft 0.354 / 0.634	Loss_tri_soft 0.182 / 0.165	Loss_lf 3.581 / 1.495	Loss_lf_tri 0.274 / 0.221	Prec 98.50% / 98.67%	
+Epoch: [13][180/200]	Time 1.488 (4.522)	Data 0.000 (2.365)	Loss_ce 1.156 / 1.221	Loss_ce_soft 0.353 / 0.630	Loss_tri_soft 0.181 / 0.163	Loss_lf 3.581 / 1.495	Loss_lf_tri 0.274 / 0.218	Prec 98.52% / 98.72%	
+Epoch: [13][200/200]	Time 1.427 (4.431)	Data 0.000 (2.342)	Loss_ce 1.152 / 1.222	Loss_ce_soft 0.354 / 0.631	Loss_tri_soft 0.180 / 0.164	Loss_lf 3.592 / 1.491	Loss_lf_tri 0.274 / 0.219	Prec 98.56% / 98.67%	
+Extract Features: [50/151]	Time 0.232 (1.116)	Data 0.000 (0.887)	
+Extract Features: [100/151]	Time 0.234 (0.671)	Data 0.000 (0.444)	
+Extract Features: [150/151]	Time 0.239 (0.525)	Data 0.000 (0.296)	
+Mean AP: 58.1%
+
+ * Finished phase   1 epoch  13  model no.1 mAP: 58.1%  best: 58.5%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 14.84423565864563
+Clustering and labeling...
+
+ Clustered into 135 classes 
+
+###############################
+Lamda for less forget is set to  15.347819244295117
+###############################
+lr of module.classifier.fc1.weight is 0
+lr of module.classifier_max.fc1.weight is 0
+K:\ws\anaconda\lib\site-packages\torch\cuda\nccl.py:16: UserWarning: PyTorch is not compiled with NCCL support
+  warnings.warn('PyTorch is not compiled with NCCL support')
+Epoch: [14][20/200]	Time 1.382 (3.608)	Data 0.001 (2.132)	Loss_ce 1.198 / 1.235	Loss_ce_soft 0.339 / 0.622	Loss_tri_soft 0.172 / 0.160	Loss_lf 3.607 / 1.319	Loss_lf_tri 0.260 / 0.217	Prec 97.97% / 98.12%	
+Epoch: [14][40/200]	Time 1.448 (3.605)	Data 0.000 (2.140)	Loss_ce 1.181 / 1.242	Loss_ce_soft 0.330 / 0.668	Loss_tri_soft 0.174 / 0.170	Loss_lf 3.589 / 1.409	Loss_lf_tri 0.267 / 0.223	Prec 98.44% / 98.20%	
+Epoch: [14][60/200]	Time 1.439 (4.301)	Data 0.000 (2.128)	Loss_ce 1.170 / 1.245	Loss_ce_soft 0.321 / 0.664	Loss_tri_soft 0.178 / 0.172	Loss_lf 3.581 / 1.474	Loss_lf_tri 0.267 / 0.226	Prec 98.59% / 98.23%	
+Epoch: [14][80/200]	Time 1.463 (4.127)	Data 0.000 (2.134)	Loss_ce 1.168 / 1.238	Loss_ce_soft 0.325 / 0.663	Loss_tri_soft 0.177 / 0.170	Loss_lf 3.570 / 1.491	Loss_lf_tri 0.267 / 0.226	Prec 98.59% / 98.28%	
+Epoch: [14][100/200]	Time 1.455 (4.442)	Data 0.000 (2.550)	Loss_ce 1.159 / 1.239	Loss_ce_soft 0.324 / 0.670	Loss_tri_soft 0.175 / 0.167	Loss_lf 3.567 / 1.500	Loss_lf_tri 0.268 / 0.226	Prec 98.75% / 98.16%	
+Epoch: [14][120/200]	Time 1.477 (4.660)	Data 0.000 (2.482)	Loss_ce 1.154 / 1.238	Loss_ce_soft 0.324 / 0.666	Loss_tri_soft 0.178 / 0.167	Loss_lf 3.556 / 1.502	Loss_lf_tri 0.273 / 0.225	Prec 98.85% / 98.15%	
+Epoch: [14][140/200]	Time 1.378 (4.507)	Data 0.000 (2.433)	Loss_ce 1.149 / 1.236	Loss_ce_soft 0.321 / 0.669	Loss_tri_soft 0.177 / 0.166	Loss_lf 3.545 / 1.494	Loss_lf_tri 0.272 / 0.225	Prec 98.93% / 98.24%	
+Epoch: [14][160/200]	Time 1.429 (4.395)	Data 0.000 (2.397)	Loss_ce 1.145 / 1.233	Loss_ce_soft 0.318 / 0.663	Loss_tri_soft 0.173 / 0.163	Loss_lf 3.550 / 1.487	Loss_lf_tri 0.269 / 0.223	Prec 99.04% / 98.38%	
+Epoch: [14][180/200]	Time 1.391 (4.799)	Data 0.000 (2.620)	Loss_ce 1.141 / 1.232	Loss_ce_soft 0.315 / 0.662	Loss_tri_soft 0.172 / 0.163	Loss_lf 3.539 / 1.495	Loss_lf_tri 0.267 / 0.224	Prec 99.08% / 98.35%	
+Epoch: [14][200/200]	Time 1.437 (4.676)	Data 0.000 (2.573)	Loss_ce 1.138 / 1.229	Loss_ce_soft 0.317 / 0.650	Loss_tri_soft 0.176 / 0.160	Loss_lf 3.544 / 1.489	Loss_lf_tri 0.271 / 0.221	Prec 99.12% / 98.39%	
+
+Process finished with exit code -1
