@@ -632,11 +632,11 @@ class UsicTrainer_E(object):
             target_inputs = data_loader_target.next()
             data_time.update(time.time() - end)
             loss_target_total, loss_ce_target, loss_ce_soft_target, loss_tri_soft_target, loss_dist_target,loss_dist_tri_target,pre_target=\
-                self.calculate_loss(target_inputs,self.old_class_num,self.total_class_num,lamda,self.criterion_ce1,cal_dist= use_dist,T=2)#lamda
+                self.calculate_loss(target_inputs,self.old_class_num,self.total_class_num,1,self.criterion_ce1,cal_dist= use_dist,T=2)#lamda
             if phase>0:
                 examplar_inputs = data_loader_examplar.next()
                 loss_exa_total, loss_ce_exa, loss_ce_soft_exa, loss_tri_soft_exa, loss_dist_exa,loss_dist_tri_exa,pre_exa = \
-                self.calculate_loss(examplar_inputs, 0, self.total_class_num, lamda,self.criterion_ce2, cal_dist=use_dist,T=2)#lamda
+                self.calculate_loss(examplar_inputs, 0, self.total_class_num, 1,self.criterion_ce2, cal_dist=use_dist,T=2)#lamda
 
             else:
                 loss_exa_total=0
@@ -702,6 +702,10 @@ class UsicTrainer_E(object):
         targets = pids.cuda()
         return inputs_1, inputs_2, targets
 
+    def inter_class_loss(self):
+        pass
+
+
     def calculate_loss(self, xx_inputs, begin, end, adaptive_lamda,activation, cal_dist=False, T=2):
         inputs_1, inputs_2, targets = self._parse_data(xx_inputs)
         # input forward
@@ -749,7 +753,7 @@ class UsicTrainer_E(object):
         else:
             loss_dist = 0
             loss_lf_tri=0
-        loss_target_input = loss_ce * (1 - 0.5) + loss_ce_soft * 0.5 + loss_tri_soft + (loss_dist + loss_lf_tri)*adaptive_lamda*0.1  # * adaptive_lamda未使用自适应系数
+        loss_target_input = loss_ce * (1 - 0.5) + loss_ce_soft * 0.5 + loss_tri_soft + (loss_dist + loss_lf_tri)*adaptive_lamda  # * adaptive_lamda未使用自适应系数
         # ce_soft_weight = 0.5
         precision = accuracy(p_out_t1.data, (targets - begin).data)
         return loss_target_input, loss_ce, loss_ce_soft, loss_tri_soft, loss_dist, loss_lf_tri,precision
