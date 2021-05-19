@@ -1,0 +1,716 @@
+ target_loss系数为0.1，在log5.18 66.9%上将使用mr的余弦距离计算改成了使用角度计算，角度margin为0.5。
+ 结果为66.8。 但是整体效果没有余弦距离的好用。
+
+
+
+==========
+Args:Namespace(alpha=0.999, arch='resnet50_AB_cosine', batch_size=16, ckp_prefix='ABMT_IC3', data_dir='K:\\\\ws\\\\project\\\\data\\\\', dataset_source='dukemtmc-reid', dataset_target='market1501', dropout=0.0, epochs=25, eval_step=1, features=0, height=256, init='logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/', iters=200, lamda=10.0, logs_dir='logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/', lr=0.00035, momentum=0.9, nb_cl=100, nb_protos=4, nb_runs=1, num_instances=4, num_phase=5, print_freq=20, rr_gpu=False, seed=1, soft_ce_weight=0.5, soft_tri_weight=0.8, weight_decay=0.0005, width=128, workers=4)
+==========
+=> Market1501 loaded
+Dataset statistics:
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |   751 |    12936 |         6
+  query    |   750 |     3368 |         6
+  gallery  |   751 |    15913 |         6
+  ----------------------------------------
+Order name:./checkpoint/seed_1_market1501_order.pkl
+Loading orders
+[690, 602, 389, 537, 90, 382, 654, 84, 425, 85, 608, 692, 334, 684, 19, 175, 285, 207, 60, 120, 364, 59, 512, 738, 448, 363, 47, 541, 445, 681, 432, 521, 311, 527, 214, 544, 601, 378, 111, 435, 101, 729, 8, 598, 484, 69, 560, 718, 523, 487, 734, 554, 202, 737, 154, 81, 329, 379, 412, 524, 631, 56, 148, 286, 599, 262, 23, 180, 720, 676, 624, 474, 314, 652, 494, 185, 310, 273, 696, 50, 717, 686, 194, 117, 386, 667, 674, 361, 323, 181, 436, 61, 134, 233, 589, 703, 3, 403, 159, 255, 551, 65, 366, 161, 104, 682, 603, 57, 607, 247, 739, 201, 446, 320, 540, 248, 35, 578, 402, 274, 373, 41, 626, 433, 16, 582, 108, 429, 748, 358, 0, 242, 74, 491, 66, 464, 345, 482, 414, 496, 687, 556, 480, 289, 305, 13, 459, 585, 257, 92, 473, 733, 672, 245, 530, 195, 507, 628, 132, 741, 371, 502, 529, 301, 40, 710, 68, 76, 223, 623, 139, 187, 372, 118, 299, 597, 34, 368, 189, 216, 744, 660, 699, 352, 498, 119, 82, 353, 355, 518, 107, 17, 307, 172, 404, 103, 656, 625, 374, 383, 408, 45, 241, 335, 218, 618, 635, 11, 88, 604, 538, 147, 658, 713, 224, 350, 570, 596, 619, 528, 594, 173, 333, 121, 695, 49, 31, 385, 268, 707, 479, 265, 747, 647, 685, 399, 116, 427, 670, 488, 95, 426, 740, 354, 318, 346, 277, 669, 62, 533, 160, 516, 689, 558, 483, 135, 711, 552, 331, 610, 29, 501, 592, 341, 146, 419, 657, 576, 349, 165, 80, 392, 259, 9, 746, 339, 591, 179, 638, 298, 422, 5, 197, 590, 437, 261, 664, 428, 434, 38, 644, 526, 293, 162, 67, 124, 39, 4, 33, 509, 280, 522, 99, 550, 567, 236, 421, 449, 622, 397, 732, 481, 186, 441, 680, 260, 415, 153, 517, 304, 200, 716, 78, 312, 679, 549, 42, 133, 394, 612, 250, 531, 439, 519, 192, 220, 495, 388, 563, 447, 511, 157, 539, 272, 722, 731, 306, 565, 102, 52, 156, 396, 400, 97, 573, 128, 177, 347, 110, 705, 510, 375, 343, 543, 142, 605, 6, 267, 743, 237, 486, 58, 232, 688, 617, 203, 649, 284, 443, 2, 736, 411, 217, 360, 46, 721, 225, 18, 168, 228, 292, 377, 227, 629, 620, 328, 283, 698, 579, 730, 546, 93, 213, 258, 337, 291, 493, 106, 115, 158, 745, 467, 36, 105, 395, 362, 452, 204, 244, 221, 246, 365, 504, 559, 723, 575, 351, 249, 122, 406, 640, 164, 642, 613, 697, 239, 83, 525, 295, 636, 70, 506, 457, 98, 614, 693, 359, 30, 340, 587, 94, 127, 630, 1, 472, 27, 89, 308, 73, 453, 184, 726, 171, 417, 226, 678, 646, 112, 91, 294, 370, 574, 650, 125, 423, 728, 455, 460, 410, 315, 376, 12, 651, 438, 553, 150, 750, 555, 577, 238, 114, 659, 442, 600, 309, 409, 143, 205, 14, 708, 463, 54, 430, 208, 344, 440, 131, 380, 174, 593, 191, 270, 407, 535, 123, 138, 51, 275, 727, 342, 256, 182, 300, 571, 240, 230, 326, 458, 465, 163, 167, 145, 206, 500, 188, 324, 637, 671, 79, 634, 677, 229, 581, 100, 290, 444, 712, 53, 391, 725, 749, 251, 499, 475, 271, 44, 113, 24, 211, 169, 520, 32, 109, 136, 330, 222, 28, 287, 55, 662, 675, 48, 735, 545, 477, 547, 63, 413, 384, 666, 322, 451, 584, 234, 557, 462, 424, 661, 303, 663, 219, 714, 296, 21, 420, 325, 199, 450, 137, 536, 212, 724, 702, 691, 505, 611, 231, 405, 568, 317, 183, 643, 641, 609, 485, 278, 20, 170, 401, 694, 566, 176, 327, 198, 470, 632, 266, 615, 492, 130, 338, 639, 489, 572, 606, 193, 140, 416, 476, 152, 673, 10, 269, 96, 210, 742, 569, 548, 709, 532, 701, 332, 75, 77, 263, 149, 700, 514, 706, 469, 564, 461, 253, 369, 321, 151, 302, 190, 586, 348, 243, 87, 655, 683, 418, 288, 648, 166, 595, 704, 155, 356, 381, 279, 126, 22, 616, 665, 282, 471, 367, 25, 196, 64, 15, 466, 297, 621, 336, 26, 588, 43, 497, 515, 719, 561, 454, 387, 71, 542, 456, 633, 431, 627, 653, 264, 209, 316, 513, 313, 534, 319, 7, 393, 141, 86, 478, 503, 215, 580, 562, 398, 668, 490, 252, 468, 357, 254, 276, 178, 281, 390, 508, 583, 129, 144, 645, 715, 72, 235, 37]
+
+
+ phase 4 have 626 old classes
+=> Loaded checkpoint 'logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/phase4_model_best.pth.tar'
+phase:4 input id:100,input image:1549
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 11.463320016860962
+eps for cluster: 0.045
+Clustering and labeling...
+
+ Clustered into 96 classes 
+
+in_features: 2048 out_features1: 520 out_features2: 106
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [0][20/200]	Time 1.460 (1.647)	Data 0.000 (0.000)	Loss_ce 1.332 / 1.808	Loss_ce_soft 1.223 / 2.952	Loss_tri_soft 0.217 / 0.124	Loss_lf 4.892 / 2.634	Loss_lf_tri 0.222 / 0.131	Loss_mr 0.000 / 0.467	Prec 89.69% / 90.00%	
+Epoch: [0][40/200]	Time 1.593 (2.143)	Data 0.000 (0.576)	Loss_ce 1.335 / 1.817	Loss_ce_soft 1.273 / 2.930	Loss_tri_soft 0.211 / 0.140	Loss_lf 4.974 / 2.707	Loss_lf_tri 0.210 / 0.141	Loss_mr 0.000 / 0.478	Prec 89.69% / 89.84%	
+Epoch: [0][60/200]	Time 1.343 (2.313)	Data 0.000 (0.771)	Loss_ce 1.312 / 1.848	Loss_ce_soft 1.227 / 2.981	Loss_tri_soft 0.207 / 0.138	Loss_lf 4.993 / 2.740	Loss_lf_tri 0.203 / 0.140	Loss_mr 0.000 / 0.488	Prec 90.62% / 89.27%	
+Epoch: [0][80/200]	Time 1.238 (2.255)	Data 0.000 (0.807)	Loss_ce 1.309 / 1.899	Loss_ce_soft 1.234 / 3.042	Loss_tri_soft 0.205 / 0.153	Loss_lf 5.011 / 2.798	Loss_lf_tri 0.200 / 0.147	Loss_mr 0.000 / 0.497	Prec 90.70% / 88.67%	
+Epoch: [0][100/200]	Time 1.181 (2.223)	Data 0.000 (0.834)	Loss_ce 1.302 / 1.958	Loss_ce_soft 1.233 / 3.088	Loss_tri_soft 0.216 / 0.156	Loss_lf 5.008 / 2.789	Loss_lf_tri 0.207 / 0.150	Loss_mr 0.000 / 0.509	Prec 91.00% / 87.19%	
+Epoch: [0][120/200]	Time 1.120 (2.042)	Data 0.000 (0.695)	Loss_ce 1.296 / 1.984	Loss_ce_soft 1.231 / 3.129	Loss_tri_soft 0.219 / 0.156	Loss_lf 5.013 / 2.781	Loss_lf_tri 0.211 / 0.149	Loss_mr 0.000 / 0.518	Prec 91.20% / 87.34%	
+Epoch: [0][140/200]	Time 1.109 (2.046)	Data 0.000 (0.726)	Loss_ce 1.285 / 2.017	Loss_ce_soft 1.226 / 3.158	Loss_tri_soft 0.210 / 0.162	Loss_lf 5.028 / 2.791	Loss_lf_tri 0.203 / 0.153	Loss_mr 0.000 / 0.525	Prec 91.38% / 86.65%	
+Epoch: [0][160/200]	Time 1.495 (2.086)	Data 0.001 (0.757)	Loss_ce 1.279 / 2.046	Loss_ce_soft 1.224 / 3.204	Loss_tri_soft 0.208 / 0.164	Loss_lf 5.027 / 2.813	Loss_lf_tri 0.201 / 0.154	Loss_mr 0.000 / 0.532	Prec 91.33% / 86.21%	
+Epoch: [0][180/200]	Time 1.526 (2.146)	Data 0.000 (0.802)	Loss_ce 1.276 / 2.096	Loss_ce_soft 1.225 / 3.245	Loss_tri_soft 0.200 / 0.171	Loss_lf 5.025 / 2.829	Loss_lf_tri 0.195 / 0.160	Loss_mr 0.000 / 0.540	Prec 91.35% / 84.97%	
+Epoch: [0][200/200]	Time 1.482 (2.313)	Data 0.000 (0.838)	Loss_ce 1.276 / 2.081	Loss_ce_soft 1.233 / 3.236	Loss_tri_soft 0.199 / 0.171	Loss_lf 5.031 / 2.824	Loss_lf_tri 0.194 / 0.161	Loss_mr 0.000 / 0.536	Prec 91.41% / 85.31%	
+Extract Features: [50/76]	Time 0.429 (0.896)	Data 0.002 (0.477)	
+Mean AP: 65.9%
+
+ * Finished phase   4 epoch   0  model no.1 mAP: 65.9%  best: 65.9% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.69088864326477
+Clustering and labeling...
+
+ Clustered into 94 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [1][20/200]	Time 1.280 (1.298)	Data 0.001 (0.000)	Loss_ce 1.371 / 1.993	Loss_ce_soft 1.187 / 3.061	Loss_tri_soft 0.220 / 0.168	Loss_lf 5.091 / 2.856	Loss_lf_tri 0.217 / 0.153	Loss_mr 0.000 / 0.568	Prec 87.50% / 83.75%	
+Epoch: [1][40/200]	Time 1.199 (1.744)	Data 0.001 (0.488)	Loss_ce 1.322 / 2.035	Loss_ce_soft 1.128 / 3.050	Loss_tri_soft 0.209 / 0.194	Loss_lf 5.073 / 2.884	Loss_lf_tri 0.197 / 0.182	Loss_mr 0.000 / 0.563	Prec 88.91% / 83.75%	
+Epoch: [1][60/200]	Time 1.179 (1.880)	Data 0.000 (0.645)	Loss_ce 1.316 / 2.043	Loss_ce_soft 1.110 / 3.077	Loss_tri_soft 0.203 / 0.178	Loss_lf 5.093 / 2.857	Loss_lf_tri 0.199 / 0.170	Loss_mr 0.000 / 0.567	Prec 90.10% / 85.21%	
+Epoch: [1][80/200]	Time 1.181 (1.946)	Data 0.000 (0.724)	Loss_ce 1.296 / 2.081	Loss_ce_soft 1.102 / 3.114	Loss_tri_soft 0.217 / 0.171	Loss_lf 5.092 / 2.875	Loss_lf_tri 0.211 / 0.165	Loss_mr 0.000 / 0.572	Prec 91.02% / 85.08%	
+Epoch: [1][100/200]	Time 1.181 (1.988)	Data 0.001 (0.772)	Loss_ce 1.289 / 2.106	Loss_ce_soft 1.093 / 3.146	Loss_tri_soft 0.212 / 0.174	Loss_lf 5.087 / 2.852	Loss_lf_tri 0.208 / 0.167	Loss_mr 0.000 / 0.575	Prec 91.12% / 85.31%	
+Epoch: [1][120/200]	Time 1.275 (2.028)	Data 0.000 (0.812)	Loss_ce 1.282 / 2.140	Loss_ce_soft 1.085 / 3.179	Loss_tri_soft 0.198 / 0.172	Loss_lf 5.080 / 2.874	Loss_lf_tri 0.197 / 0.163	Loss_mr 0.000 / 0.583	Prec 91.35% / 85.05%	
+Epoch: [1][140/200]	Time 1.130 (2.057)	Data 0.001 (0.832)	Loss_ce 1.283 / 2.170	Loss_ce_soft 1.096 / 3.173	Loss_tri_soft 0.200 / 0.168	Loss_lf 5.086 / 2.885	Loss_lf_tri 0.199 / 0.159	Loss_mr 0.000 / 0.584	Prec 91.12% / 84.02%	
+Epoch: [1][160/200]	Time 1.302 (1.948)	Data 0.000 (0.728)	Loss_ce 1.283 / 2.205	Loss_ce_soft 1.097 / 3.204	Loss_tri_soft 0.201 / 0.169	Loss_lf 5.085 / 2.906	Loss_lf_tri 0.200 / 0.160	Loss_mr 0.000 / 0.588	Prec 90.90% / 83.16%	
+Epoch: [1][180/200]	Time 1.179 (1.967)	Data 0.000 (0.752)	Loss_ce 1.278 / 2.230	Loss_ce_soft 1.096 / 3.220	Loss_tri_soft 0.204 / 0.170	Loss_lf 5.085 / 2.914	Loss_lf_tri 0.201 / 0.161	Loss_mr 0.000 / 0.592	Prec 90.90% / 82.88%	
+Epoch: [1][200/200]	Time 1.332 (2.086)	Data 0.000 (0.775)	Loss_ce 1.273 / 2.205	Loss_ce_soft 1.098 / 3.216	Loss_tri_soft 0.210 / 0.166	Loss_lf 5.088 / 2.891	Loss_lf_tri 0.206 / 0.157	Loss_mr 0.000 / 0.583	Prec 91.06% / 83.41%	
+Extract Features: [50/76]	Time 0.351 (0.730)	Data 0.001 (0.380)	
+Mean AP: 65.9%
+
+ * Finished phase   4 epoch   1  model no.1 mAP: 65.9%  best: 65.9% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.587920904159546
+Clustering and labeling...
+
+ Clustered into 99 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [2][20/200]	Time 1.188 (1.190)	Data 0.000 (0.000)	Loss_ce 1.301 / 2.056	Loss_ce_soft 1.210 / 3.176	Loss_tri_soft 0.167 / 0.171	Loss_lf 5.047 / 3.028	Loss_lf_tri 0.184 / 0.178	Loss_mr 0.000 / 0.581	Prec 91.25% / 85.62%	
+Epoch: [2][40/200]	Time 1.314 (1.697)	Data 0.001 (0.466)	Loss_ce 1.321 / 2.117	Loss_ce_soft 1.154 / 3.237	Loss_tri_soft 0.203 / 0.188	Loss_lf 5.077 / 2.973	Loss_lf_tri 0.210 / 0.186	Loss_mr 0.000 / 0.589	Prec 91.88% / 85.31%	
+Epoch: [2][60/200]	Time 1.179 (1.839)	Data 0.000 (0.615)	Loss_ce 1.295 / 2.144	Loss_ce_soft 1.124 / 3.209	Loss_tri_soft 0.187 / 0.167	Loss_lf 5.077 / 2.898	Loss_lf_tri 0.198 / 0.167	Loss_mr 0.000 / 0.589	Prec 92.08% / 84.38%	
+Epoch: [2][80/200]	Time 1.181 (1.915)	Data 0.000 (0.700)	Loss_ce 1.277 / 2.149	Loss_ce_soft 1.093 / 3.168	Loss_tri_soft 0.184 / 0.151	Loss_lf 5.048 / 2.911	Loss_lf_tri 0.194 / 0.152	Loss_mr 0.000 / 0.593	Prec 92.27% / 84.14%	
+Epoch: [2][100/200]	Time 1.175 (1.958)	Data 0.000 (0.747)	Loss_ce 1.267 / 2.169	Loss_ce_soft 1.088 / 3.171	Loss_tri_soft 0.188 / 0.145	Loss_lf 5.067 / 2.913	Loss_lf_tri 0.196 / 0.148	Loss_mr 0.000 / 0.597	Prec 92.75% / 83.94%	
+Epoch: [2][120/200]	Time 1.192 (1.830)	Data 0.000 (0.623)	Loss_ce 1.266 / 2.200	Loss_ce_soft 1.078 / 3.194	Loss_tri_soft 0.183 / 0.149	Loss_lf 5.069 / 2.902	Loss_lf_tri 0.193 / 0.150	Loss_mr 0.000 / 0.600	Prec 92.76% / 83.18%	
+Epoch: [2][140/200]	Time 1.170 (1.874)	Data 0.000 (0.669)	Loss_ce 1.268 / 2.224	Loss_ce_soft 1.087 / 3.197	Loss_tri_soft 0.184 / 0.155	Loss_lf 5.066 / 2.939	Loss_lf_tri 0.193 / 0.156	Loss_mr 0.000 / 0.605	Prec 92.68% / 83.12%	
+Epoch: [2][160/200]	Time 1.186 (1.909)	Data 0.001 (0.705)	Loss_ce 1.267 / 2.239	Loss_ce_soft 1.084 / 3.212	Loss_tri_soft 0.187 / 0.152	Loss_lf 5.073 / 2.940	Loss_lf_tri 0.194 / 0.153	Loss_mr 0.000 / 0.607	Prec 92.58% / 82.81%	
+Epoch: [2][180/200]	Time 1.177 (1.934)	Data 0.000 (0.732)	Loss_ce 1.264 / 2.259	Loss_ce_soft 1.081 / 3.231	Loss_tri_soft 0.187 / 0.151	Loss_lf 5.076 / 2.963	Loss_lf_tri 0.193 / 0.152	Loss_mr 0.000 / 0.609	Prec 92.67% / 82.29%	
+Epoch: [2][200/200]	Time 1.181 (2.053)	Data 0.000 (0.754)	Loss_ce 1.263 / 2.249	Loss_ce_soft 1.083 / 3.235	Loss_tri_soft 0.191 / 0.154	Loss_lf 5.080 / 2.957	Loss_lf_tri 0.198 / 0.153	Loss_mr 0.000 / 0.602	Prec 92.84% / 82.50%	
+Extract Features: [50/76]	Time 0.348 (0.732)	Data 0.000 (0.381)	
+Mean AP: 66.7%
+
+ * Finished phase   4 epoch   2  model no.1 mAP: 66.7%  best: 66.7% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.558931112289429
+Clustering and labeling...
+
+ Clustered into 100 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [3][20/200]	Time 1.293 (1.302)	Data 0.000 (0.000)	Loss_ce 1.269 / 2.021	Loss_ce_soft 1.053 / 3.175	Loss_tri_soft 0.176 / 0.211	Loss_lf 5.097 / 2.904	Loss_lf_tri 0.182 / 0.192	Loss_mr 0.000 / 0.583	Prec 94.69% / 86.88%	
+Epoch: [3][40/200]	Time 1.203 (1.778)	Data 0.001 (0.506)	Loss_ce 1.270 / 2.079	Loss_ce_soft 0.997 / 3.178	Loss_tri_soft 0.170 / 0.191	Loss_lf 5.099 / 2.829	Loss_lf_tri 0.182 / 0.180	Loss_mr 0.000 / 0.599	Prec 93.28% / 86.72%	
+Epoch: [3][60/200]	Time 1.195 (1.909)	Data 0.000 (0.661)	Loss_ce 1.241 / 2.098	Loss_ce_soft 0.992 / 3.170	Loss_tri_soft 0.160 / 0.179	Loss_lf 5.111 / 2.914	Loss_lf_tri 0.177 / 0.175	Loss_mr 0.000 / 0.599	Prec 93.33% / 87.08%	
+Epoch: [3][80/200]	Time 1.159 (1.979)	Data 0.000 (0.741)	Loss_ce 1.243 / 2.124	Loss_ce_soft 1.010 / 3.201	Loss_tri_soft 0.169 / 0.155	Loss_lf 5.116 / 2.963	Loss_lf_tri 0.182 / 0.155	Loss_mr 0.000 / 0.606	Prec 92.97% / 87.03%	
+Epoch: [3][100/200]	Time 1.185 (1.821)	Data 0.000 (0.593)	Loss_ce 1.251 / 2.149	Loss_ce_soft 1.022 / 3.211	Loss_tri_soft 0.185 / 0.143	Loss_lf 5.105 / 2.983	Loss_lf_tri 0.192 / 0.145	Loss_mr 0.000 / 0.609	Prec 92.75% / 86.38%	
+Epoch: [3][120/200]	Time 1.436 (1.939)	Data 0.001 (0.678)	Loss_ce 1.248 / 2.170	Loss_ce_soft 1.027 / 3.206	Loss_tri_soft 0.186 / 0.144	Loss_lf 5.099 / 2.965	Loss_lf_tri 0.192 / 0.146	Loss_mr 0.000 / 0.611	Prec 92.97% / 85.89%	
+Epoch: [3][140/200]	Time 1.404 (2.030)	Data 0.001 (0.744)	Loss_ce 1.258 / 2.213	Loss_ce_soft 1.054 / 3.225	Loss_tri_soft 0.197 / 0.156	Loss_lf 5.105 / 2.975	Loss_lf_tri 0.200 / 0.154	Loss_mr 0.000 / 0.617	Prec 92.77% / 84.64%	
+Epoch: [3][160/200]	Time 1.508 (2.097)	Data 0.000 (0.793)	Loss_ce 1.257 / 2.242	Loss_ce_soft 1.063 / 3.236	Loss_tri_soft 0.198 / 0.154	Loss_lf 5.102 / 2.981	Loss_lf_tri 0.202 / 0.152	Loss_mr 0.000 / 0.619	Prec 93.01% / 83.59%	
+Epoch: [3][180/200]	Time 1.441 (2.160)	Data 0.001 (0.833)	Loss_ce 1.257 / 2.264	Loss_ce_soft 1.070 / 3.245	Loss_tri_soft 0.200 / 0.155	Loss_lf 5.111 / 2.983	Loss_lf_tri 0.204 / 0.150	Loss_mr 0.000 / 0.623	Prec 92.92% / 83.26%	
+Epoch: [3][200/200]	Time 1.540 (2.212)	Data 0.000 (0.750)	Loss_ce 1.253 / 2.235	Loss_ce_soft 1.067 / 3.228	Loss_tri_soft 0.195 / 0.151	Loss_lf 5.108 / 2.955	Loss_lf_tri 0.201 / 0.147	Loss_mr 0.000 / 0.613	Prec 93.00% / 83.84%	
+Extract Features: [50/76]	Time 0.350 (0.843)	Data 0.001 (0.481)	
+Mean AP: 66.2%
+
+ * Finished phase   4 epoch   3  model no.1 mAP: 66.2%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 11.314367294311523
+Clustering and labeling...
+
+ Clustered into 102 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [4][20/200]	Time 1.124 (1.353)	Data 0.000 (0.000)	Loss_ce 1.273 / 2.085	Loss_ce_soft 1.054 / 3.286	Loss_tri_soft 0.198 / 0.130	Loss_lf 5.120 / 2.938	Loss_lf_tri 0.212 / 0.142	Loss_mr 0.000 / 0.612	Prec 92.81% / 85.00%	
+Epoch: [4][40/200]	Time 1.122 (1.701)	Data 0.000 (0.456)	Loss_ce 1.286 / 2.172	Loss_ce_soft 1.051 / 3.240	Loss_tri_soft 0.180 / 0.112	Loss_lf 5.092 / 3.028	Loss_lf_tri 0.192 / 0.126	Loss_mr 0.000 / 0.624	Prec 92.66% / 83.12%	
+Epoch: [4][60/200]	Time 1.123 (1.812)	Data 0.000 (0.606)	Loss_ce 1.315 / 2.169	Loss_ce_soft 1.103 / 3.184	Loss_tri_soft 0.176 / 0.130	Loss_lf 5.109 / 2.974	Loss_lf_tri 0.190 / 0.139	Loss_mr 0.000 / 0.620	Prec 91.35% / 83.75%	
+Epoch: [4][80/200]	Time 1.121 (1.868)	Data 0.001 (0.679)	Loss_ce 1.310 / 2.169	Loss_ce_soft 1.108 / 3.162	Loss_tri_soft 0.168 / 0.126	Loss_lf 5.102 / 3.023	Loss_lf_tri 0.183 / 0.134	Loss_mr 0.000 / 0.621	Prec 91.33% / 83.83%	
+Epoch: [4][100/200]	Time 1.119 (1.721)	Data 0.000 (0.543)	Loss_ce 1.309 / 2.207	Loss_ce_soft 1.122 / 3.187	Loss_tri_soft 0.175 / 0.122	Loss_lf 5.110 / 2.981	Loss_lf_tri 0.187 / 0.129	Loss_mr 0.000 / 0.623	Prec 91.25% / 83.38%	
+Epoch: [4][120/200]	Time 1.167 (1.778)	Data 0.000 (0.602)	Loss_ce 1.317 / 2.237	Loss_ce_soft 1.126 / 3.227	Loss_tri_soft 0.175 / 0.126	Loss_lf 5.108 / 3.017	Loss_lf_tri 0.189 / 0.135	Loss_mr 0.000 / 0.627	Prec 90.68% / 83.18%	
+Epoch: [4][140/200]	Time 1.162 (1.826)	Data 0.000 (0.650)	Loss_ce 1.313 / 2.282	Loss_ce_soft 1.125 / 3.247	Loss_tri_soft 0.178 / 0.132	Loss_lf 5.108 / 3.033	Loss_lf_tri 0.193 / 0.141	Loss_mr 0.000 / 0.634	Prec 90.94% / 82.81%	
+Epoch: [4][160/200]	Time 1.165 (1.862)	Data 0.000 (0.686)	Loss_ce 1.317 / 2.307	Loss_ce_soft 1.121 / 3.282	Loss_tri_soft 0.178 / 0.138	Loss_lf 5.106 / 3.046	Loss_lf_tri 0.194 / 0.145	Loss_mr 0.000 / 0.636	Prec 90.59% / 82.46%	
+Epoch: [4][180/200]	Time 1.159 (1.890)	Data 0.000 (0.715)	Loss_ce 1.314 / 2.328	Loss_ce_soft 1.122 / 3.299	Loss_tri_soft 0.178 / 0.138	Loss_lf 5.102 / 3.041	Loss_lf_tri 0.194 / 0.145	Loss_mr 0.000 / 0.638	Prec 90.66% / 82.43%	
+Epoch: [4][200/200]	Time 1.187 (1.912)	Data 0.000 (0.644)	Loss_ce 1.314 / 2.302	Loss_ce_soft 1.125 / 3.279	Loss_tri_soft 0.177 / 0.137	Loss_lf 5.109 / 3.022	Loss_lf_tri 0.194 / 0.144	Loss_mr 0.000 / 0.631	Prec 90.81% / 82.88%	
+Extract Features: [50/76]	Time 0.336 (0.733)	Data 0.000 (0.389)	
+Mean AP: 65.7%
+
+ * Finished phase   4 epoch   4  model no.1 mAP: 65.7%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.225038290023804
+Clustering and labeling...
+
+ Clustered into 101 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [5][20/200]	Time 1.165 (1.185)	Data 0.000 (0.000)	Loss_ce 1.325 / 2.157	Loss_ce_soft 1.127 / 3.291	Loss_tri_soft 0.215 / 0.114	Loss_lf 5.149 / 2.958	Loss_lf_tri 0.228 / 0.125	Loss_mr 0.000 / 0.620	Prec 87.81% / 85.00%	
+Epoch: [5][40/200]	Time 1.178 (1.649)	Data 0.000 (0.471)	Loss_ce 1.327 / 2.190	Loss_ce_soft 1.137 / 3.314	Loss_tri_soft 0.204 / 0.142	Loss_lf 5.170 / 2.902	Loss_lf_tri 0.214 / 0.148	Loss_mr 0.000 / 0.625	Prec 89.53% / 84.38%	
+Epoch: [5][60/200]	Time 1.174 (1.807)	Data 0.000 (0.629)	Loss_ce 1.318 / 2.217	Loss_ce_soft 1.113 / 3.279	Loss_tri_soft 0.182 / 0.146	Loss_lf 5.149 / 2.956	Loss_lf_tri 0.195 / 0.154	Loss_mr 0.000 / 0.629	Prec 89.58% / 83.44%	
+Epoch: [5][80/200]	Time 1.171 (1.885)	Data 0.000 (0.706)	Loss_ce 1.288 / 2.219	Loss_ce_soft 1.080 / 3.238	Loss_tri_soft 0.181 / 0.146	Loss_lf 5.148 / 2.985	Loss_lf_tri 0.190 / 0.153	Loss_mr 0.000 / 0.632	Prec 90.78% / 83.83%	
+Epoch: [5][100/200]	Time 1.166 (1.745)	Data 0.000 (0.565)	Loss_ce 1.285 / 2.234	Loss_ce_soft 1.085 / 3.222	Loss_tri_soft 0.173 / 0.144	Loss_lf 5.157 / 2.979	Loss_lf_tri 0.186 / 0.153	Loss_mr 0.000 / 0.631	Prec 90.62% / 83.88%	
+Epoch: [5][120/200]	Time 1.163 (1.808)	Data 0.001 (0.627)	Loss_ce 1.294 / 2.257	Loss_ce_soft 1.101 / 3.234	Loss_tri_soft 0.186 / 0.153	Loss_lf 5.156 / 3.007	Loss_lf_tri 0.197 / 0.159	Loss_mr 0.000 / 0.633	Prec 90.78% / 83.75%	
+Epoch: [5][140/200]	Time 1.173 (1.853)	Data 0.000 (0.671)	Loss_ce 1.294 / 2.288	Loss_ce_soft 1.096 / 3.237	Loss_tri_soft 0.190 / 0.152	Loss_lf 5.156 / 3.004	Loss_lf_tri 0.202 / 0.158	Loss_mr 0.000 / 0.635	Prec 90.62% / 82.99%	
+Epoch: [5][160/200]	Time 1.377 (1.886)	Data 0.000 (0.704)	Loss_ce 1.294 / 2.309	Loss_ce_soft 1.108 / 3.240	Loss_tri_soft 0.188 / 0.159	Loss_lf 5.156 / 2.989	Loss_lf_tri 0.202 / 0.161	Loss_mr 0.000 / 0.636	Prec 90.51% / 82.34%	
+Epoch: [5][180/200]	Time 1.158 (1.910)	Data 0.000 (0.730)	Loss_ce 1.295 / 2.342	Loss_ce_soft 1.107 / 3.268	Loss_tri_soft 0.190 / 0.160	Loss_lf 5.152 / 3.027	Loss_lf_tri 0.203 / 0.162	Loss_mr 0.000 / 0.640	Prec 90.69% / 81.46%	
+Epoch: [5][200/200]	Time 1.162 (1.931)	Data 0.000 (0.657)	Loss_ce 1.292 / 2.319	Loss_ce_soft 1.107 / 3.257	Loss_tri_soft 0.183 / 0.160	Loss_lf 5.145 / 3.018	Loss_lf_tri 0.198 / 0.162	Loss_mr 0.000 / 0.633	Prec 90.72% / 82.25%	
+Extract Features: [50/76]	Time 0.353 (0.736)	Data 0.001 (0.381)	
+Mean AP: 66.2%
+
+ * Finished phase   4 epoch   5  model no.1 mAP: 66.2%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.209043502807617
+Clustering and labeling...
+
+ Clustered into 103 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [6][20/200]	Time 1.166 (1.171)	Data 0.001 (0.000)	Loss_ce 1.305 / 2.155	Loss_ce_soft 1.057 / 3.106	Loss_tri_soft 0.165 / 0.144	Loss_lf 5.155 / 2.818	Loss_lf_tri 0.173 / 0.153	Loss_mr 0.000 / 0.617	Prec 92.50% / 82.50%	
+Epoch: [6][40/200]	Time 1.167 (1.623)	Data 0.000 (0.452)	Loss_ce 1.310 / 2.170	Loss_ce_soft 1.119 / 3.136	Loss_tri_soft 0.163 / 0.136	Loss_lf 5.133 / 2.853	Loss_lf_tri 0.184 / 0.141	Loss_mr 0.000 / 0.615	Prec 92.19% / 83.12%	
+Epoch: [6][60/200]	Time 1.142 (1.777)	Data 0.000 (0.608)	Loss_ce 1.289 / 2.197	Loss_ce_soft 1.125 / 3.183	Loss_tri_soft 0.174 / 0.135	Loss_lf 5.129 / 2.920	Loss_lf_tri 0.190 / 0.139	Loss_mr 0.000 / 0.623	Prec 92.40% / 83.02%	
+Epoch: [6][80/200]	Time 1.142 (1.840)	Data 0.000 (0.679)	Loss_ce 1.280 / 2.207	Loss_ce_soft 1.129 / 3.169	Loss_tri_soft 0.171 / 0.138	Loss_lf 5.143 / 2.947	Loss_lf_tri 0.187 / 0.145	Loss_mr 0.000 / 0.627	Prec 92.73% / 83.59%	
+Epoch: [6][100/200]	Time 1.135 (1.704)	Data 0.000 (0.543)	Loss_ce 1.280 / 2.246	Loss_ce_soft 1.114 / 3.203	Loss_tri_soft 0.172 / 0.140	Loss_lf 5.138 / 2.958	Loss_lf_tri 0.190 / 0.146	Loss_mr 0.000 / 0.633	Prec 92.25% / 83.06%	
+Epoch: [6][120/200]	Time 1.350 (1.762)	Data 0.000 (0.603)	Loss_ce 1.281 / 2.266	Loss_ce_soft 1.118 / 3.231	Loss_tri_soft 0.163 / 0.144	Loss_lf 5.135 / 3.003	Loss_lf_tri 0.186 / 0.151	Loss_mr 0.000 / 0.636	Prec 92.19% / 82.81%	
+Epoch: [6][140/200]	Time 1.141 (1.801)	Data 0.000 (0.644)	Loss_ce 1.275 / 2.278	Loss_ce_soft 1.123 / 3.233	Loss_tri_soft 0.164 / 0.136	Loss_lf 5.139 / 3.018	Loss_lf_tri 0.188 / 0.144	Loss_mr 0.000 / 0.637	Prec 92.41% / 82.32%	
+Epoch: [6][160/200]	Time 1.167 (1.835)	Data 0.000 (0.678)	Loss_ce 1.277 / 2.297	Loss_ce_soft 1.117 / 3.257	Loss_tri_soft 0.160 / 0.144	Loss_lf 5.137 / 3.036	Loss_lf_tri 0.185 / 0.150	Loss_mr 0.000 / 0.639	Prec 92.27% / 82.30%	
+Epoch: [6][180/200]	Time 1.164 (1.866)	Data 0.001 (0.706)	Loss_ce 1.271 / 2.331	Loss_ce_soft 1.113 / 3.288	Loss_tri_soft 0.158 / 0.147	Loss_lf 5.131 / 3.057	Loss_lf_tri 0.183 / 0.155	Loss_mr 0.000 / 0.643	Prec 92.36% / 81.49%	
+Epoch: [6][200/200]	Time 1.171 (1.890)	Data 0.001 (0.635)	Loss_ce 1.267 / 2.303	Loss_ce_soft 1.109 / 3.274	Loss_tri_soft 0.157 / 0.152	Loss_lf 5.127 / 3.043	Loss_lf_tri 0.181 / 0.158	Loss_mr 0.000 / 0.634	Prec 92.38% / 82.03%	
+Extract Features: [50/76]	Time 0.351 (0.735)	Data 0.000 (0.379)	
+Mean AP: 65.8%
+
+ * Finished phase   4 epoch   6  model no.1 mAP: 65.8%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.136066436767578
+Clustering and labeling...
+
+ Clustered into 105 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [7][20/200]	Time 1.159 (1.192)	Data 0.001 (0.000)	Loss_ce 1.303 / 2.182	Loss_ce_soft 1.118 / 3.187	Loss_tri_soft 0.184 / 0.125	Loss_lf 5.134 / 3.058	Loss_lf_tri 0.194 / 0.141	Loss_mr 0.000 / 0.625	Prec 90.62% / 83.44%	
+Epoch: [7][40/200]	Time 1.172 (1.657)	Data 0.000 (0.470)	Loss_ce 1.342 / 2.136	Loss_ce_soft 1.141 / 3.088	Loss_tri_soft 0.181 / 0.130	Loss_lf 5.138 / 2.931	Loss_lf_tri 0.197 / 0.134	Loss_mr 0.000 / 0.617	Prec 89.69% / 84.84%	
+Epoch: [7][60/200]	Time 1.168 (1.808)	Data 0.000 (0.623)	Loss_ce 1.317 / 2.201	Loss_ce_soft 1.108 / 3.175	Loss_tri_soft 0.161 / 0.135	Loss_lf 5.128 / 2.940	Loss_lf_tri 0.183 / 0.141	Loss_mr 0.000 / 0.628	Prec 91.15% / 83.96%	
+Epoch: [7][80/200]	Time 1.173 (1.884)	Data 0.000 (0.701)	Loss_ce 1.338 / 2.243	Loss_ce_soft 1.121 / 3.166	Loss_tri_soft 0.160 / 0.140	Loss_lf 5.138 / 2.936	Loss_lf_tri 0.183 / 0.145	Loss_mr 0.000 / 0.635	Prec 90.16% / 82.58%	
+Epoch: [7][100/200]	Time 1.166 (1.741)	Data 0.000 (0.561)	Loss_ce 1.322 / 2.246	Loss_ce_soft 1.111 / 3.162	Loss_tri_soft 0.155 / 0.139	Loss_lf 5.139 / 2.969	Loss_lf_tri 0.178 / 0.146	Loss_mr 0.000 / 0.634	Prec 90.75% / 82.62%	
+Epoch: [7][120/200]	Time 1.454 (1.863)	Data 0.000 (0.647)	Loss_ce 1.318 / 2.278	Loss_ce_soft 1.106 / 3.184	Loss_tri_soft 0.153 / 0.144	Loss_lf 5.135 / 3.036	Loss_lf_tri 0.177 / 0.152	Loss_mr 0.000 / 0.640	Prec 91.20% / 82.24%	
+Epoch: [7][140/200]	Time 1.473 (1.970)	Data 0.000 (0.719)	Loss_ce 1.314 / 2.311	Loss_ce_soft 1.113 / 3.223	Loss_tri_soft 0.155 / 0.136	Loss_lf 5.134 / 3.048	Loss_lf_tri 0.184 / 0.148	Loss_mr 0.000 / 0.643	Prec 91.25% / 82.10%	
+Epoch: [7][160/200]	Time 1.530 (2.051)	Data 0.001 (0.772)	Loss_ce 1.307 / 2.323	Loss_ce_soft 1.109 / 3.246	Loss_tri_soft 0.152 / 0.133	Loss_lf 5.122 / 3.069	Loss_lf_tri 0.181 / 0.145	Loss_mr 0.000 / 0.644	Prec 91.60% / 82.19%	
+Epoch: [7][180/200]	Time 1.787 (1.984)	Data 0.000 (0.686)	Loss_ce 1.311 / 2.326	Loss_ce_soft 1.111 / 3.230	Loss_tri_soft 0.155 / 0.134	Loss_lf 5.127 / 3.051	Loss_lf_tri 0.182 / 0.146	Loss_mr 0.000 / 0.643	Prec 91.32% / 82.26%	
+Epoch: [7][200/200]	Time 1.447 (2.162)	Data 0.000 (0.733)	Loss_ce 1.305 / 2.305	Loss_ce_soft 1.110 / 3.231	Loss_tri_soft 0.165 / 0.130	Loss_lf 5.125 / 3.051	Loss_lf_tri 0.190 / 0.145	Loss_mr 0.000 / 0.636	Prec 91.50% / 82.66%	
+Extract Features: [50/76]	Time 0.639 (0.768)	Data 0.001 (0.410)	
+Mean AP: 65.9%
+
+ * Finished phase   4 epoch   7  model no.1 mAP: 65.9%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.65989899635315
+Clustering and labeling...
+
+ Clustered into 110 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [8][20/200]	Time 1.192 (1.176)	Data 0.000 (0.000)	Loss_ce 1.295 / 2.131	Loss_ce_soft 1.079 / 3.164	Loss_tri_soft 0.190 / 0.149	Loss_lf 5.158 / 2.896	Loss_lf_tri 0.213 / 0.166	Loss_mr 0.000 / 0.620	Prec 92.81% / 82.50%	
+Epoch: [8][40/200]	Time 1.194 (1.706)	Data 0.001 (0.514)	Loss_ce 1.315 / 2.146	Loss_ce_soft 1.119 / 3.197	Loss_tri_soft 0.191 / 0.131	Loss_lf 5.174 / 3.028	Loss_lf_tri 0.198 / 0.144	Loss_mr 0.000 / 0.629	Prec 91.41% / 83.44%	
+Epoch: [8][60/200]	Time 1.184 (1.842)	Data 0.000 (0.650)	Loss_ce 1.309 / 2.207	Loss_ce_soft 1.111 / 3.243	Loss_tri_soft 0.196 / 0.146	Loss_lf 5.120 / 2.994	Loss_lf_tri 0.205 / 0.156	Loss_mr 0.000 / 0.637	Prec 91.67% / 83.12%	
+Epoch: [8][80/200]	Time 1.181 (1.683)	Data 0.000 (0.488)	Loss_ce 1.297 / 2.249	Loss_ce_soft 1.089 / 3.245	Loss_tri_soft 0.193 / 0.135	Loss_lf 5.129 / 3.050	Loss_lf_tri 0.202 / 0.147	Loss_mr 0.000 / 0.641	Prec 91.80% / 81.72%	
+Epoch: [8][100/200]	Time 1.205 (1.761)	Data 0.000 (0.571)	Loss_ce 1.293 / 2.266	Loss_ce_soft 1.109 / 3.229	Loss_tri_soft 0.182 / 0.139	Loss_lf 5.123 / 3.020	Loss_lf_tri 0.195 / 0.152	Loss_mr 0.000 / 0.641	Prec 91.88% / 81.94%	
+Epoch: [8][120/200]	Time 1.196 (1.827)	Data 0.000 (0.633)	Loss_ce 1.299 / 2.308	Loss_ce_soft 1.110 / 3.273	Loss_tri_soft 0.178 / 0.142	Loss_lf 5.118 / 3.100	Loss_lf_tri 0.193 / 0.154	Loss_mr 0.000 / 0.648	Prec 91.51% / 81.67%	
+Epoch: [8][140/200]	Time 1.128 (1.867)	Data 0.000 (0.673)	Loss_ce 1.297 / 2.326	Loss_ce_soft 1.111 / 3.277	Loss_tri_soft 0.188 / 0.138	Loss_lf 5.116 / 3.079	Loss_lf_tri 0.199 / 0.149	Loss_mr 0.000 / 0.651	Prec 91.61% / 81.92%	
+Epoch: [8][160/200]	Time 1.174 (1.782)	Data 0.000 (0.589)	Loss_ce 1.298 / 2.347	Loss_ce_soft 1.117 / 3.270	Loss_tri_soft 0.191 / 0.137	Loss_lf 5.112 / 3.100	Loss_lf_tri 0.204 / 0.148	Loss_mr 0.000 / 0.653	Prec 91.72% / 81.56%	
+Epoch: [8][180/200]	Time 1.212 (1.820)	Data 0.000 (0.629)	Loss_ce 1.297 / 2.364	Loss_ce_soft 1.119 / 3.282	Loss_tri_soft 0.192 / 0.135	Loss_lf 5.113 / 3.090	Loss_lf_tri 0.206 / 0.146	Loss_mr 0.000 / 0.653	Prec 91.74% / 81.42%	
+Epoch: [8][200/200]	Time 1.182 (1.949)	Data 0.000 (0.661)	Loss_ce 1.297 / 2.336	Loss_ce_soft 1.115 / 3.267	Loss_tri_soft 0.200 / 0.130	Loss_lf 5.104 / 3.077	Loss_lf_tri 0.212 / 0.142	Loss_mr 0.000 / 0.647	Prec 91.69% / 81.97%	
+Extract Features: [50/76]	Time 0.376 (0.731)	Data 0.000 (0.377)	
+Mean AP: 66.0%
+
+ * Finished phase   4 epoch   8  model no.1 mAP: 66.0%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.667896270751953
+Clustering and labeling...
+
+ Clustered into 110 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [9][20/200]	Time 1.173 (1.166)	Data 0.001 (0.000)	Loss_ce 1.329 / 2.110	Loss_ce_soft 1.143 / 3.075	Loss_tri_soft 0.197 / 0.120	Loss_lf 5.172 / 2.909	Loss_lf_tri 0.221 / 0.139	Loss_mr 0.000 / 0.615	Prec 92.81% / 85.00%	
+Epoch: [9][40/200]	Time 1.170 (1.625)	Data 0.001 (0.459)	Loss_ce 1.306 / 2.102	Loss_ce_soft 1.136 / 3.059	Loss_tri_soft 0.170 / 0.129	Loss_lf 5.154 / 2.925	Loss_lf_tri 0.200 / 0.146	Loss_mr 0.000 / 0.611	Prec 92.66% / 86.09%	
+Epoch: [9][60/200]	Time 1.224 (1.774)	Data 0.000 (0.605)	Loss_ce 1.307 / 2.133	Loss_ce_soft 1.093 / 3.139	Loss_tri_soft 0.144 / 0.125	Loss_lf 5.142 / 2.969	Loss_lf_tri 0.176 / 0.143	Loss_mr 0.000 / 0.622	Prec 92.08% / 86.67%	
+Epoch: [9][80/200]	Time 1.220 (1.629)	Data 0.001 (0.454)	Loss_ce 1.301 / 2.156	Loss_ce_soft 1.081 / 3.150	Loss_tri_soft 0.137 / 0.131	Loss_lf 5.133 / 2.953	Loss_lf_tri 0.169 / 0.141	Loss_mr 0.000 / 0.622	Prec 92.58% / 86.25%	
+Epoch: [9][100/200]	Time 1.221 (1.733)	Data 0.000 (0.552)	Loss_ce 1.288 / 2.211	Loss_ce_soft 1.071 / 3.181	Loss_tri_soft 0.142 / 0.136	Loss_lf 5.130 / 2.968	Loss_lf_tri 0.175 / 0.147	Loss_mr 0.000 / 0.631	Prec 92.62% / 84.69%	
+Epoch: [9][120/200]	Time 1.183 (1.799)	Data 0.000 (0.615)	Loss_ce 1.297 / 2.256	Loss_ce_soft 1.075 / 3.211	Loss_tri_soft 0.144 / 0.134	Loss_lf 5.125 / 3.011	Loss_lf_tri 0.179 / 0.147	Loss_mr 0.000 / 0.637	Prec 92.14% / 83.44%	
+Epoch: [9][140/200]	Time 1.188 (1.849)	Data 0.001 (0.664)	Loss_ce 1.294 / 2.294	Loss_ce_soft 1.079 / 3.225	Loss_tri_soft 0.143 / 0.142	Loss_lf 5.137 / 3.073	Loss_lf_tri 0.178 / 0.152	Loss_mr 0.000 / 0.645	Prec 92.10% / 82.41%	
+Epoch: [9][160/200]	Time 1.202 (1.768)	Data 0.000 (0.581)	Loss_ce 1.297 / 2.319	Loss_ce_soft 1.085 / 3.246	Loss_tri_soft 0.148 / 0.138	Loss_lf 5.133 / 3.091	Loss_lf_tri 0.181 / 0.149	Loss_mr 0.000 / 0.648	Prec 92.07% / 82.27%	
+Epoch: [9][180/200]	Time 1.212 (1.807)	Data 0.000 (0.621)	Loss_ce 1.291 / 2.339	Loss_ce_soft 1.077 / 3.258	Loss_tri_soft 0.146 / 0.134	Loss_lf 5.122 / 3.088	Loss_lf_tri 0.179 / 0.148	Loss_mr 0.000 / 0.651	Prec 92.29% / 82.01%	
+Epoch: [9][200/200]	Time 1.212 (1.933)	Data 0.000 (0.653)	Loss_ce 1.285 / 2.313	Loss_ce_soft 1.079 / 3.241	Loss_tri_soft 0.144 / 0.132	Loss_lf 5.128 / 3.061	Loss_lf_tri 0.177 / 0.146	Loss_mr 0.000 / 0.643	Prec 92.34% / 82.44%	
+Extract Features: [50/76]	Time 0.355 (0.740)	Data 0.001 (0.388)	
+Mean AP: 66.1%
+
+ * Finished phase   4 epoch   9  model no.1 mAP: 66.1%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.450965166091919
+Clustering and labeling...
+
+ Clustered into 115 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [10][20/200]	Time 1.211 (1.172)	Data 0.000 (0.000)	Loss_ce 1.309 / 2.140	Loss_ce_soft 1.158 / 3.272	Loss_tri_soft 0.166 / 0.105	Loss_lf 5.117 / 3.109	Loss_lf_tri 0.177 / 0.122	Loss_mr 0.000 / 0.634	Prec 92.19% / 85.00%	
+Epoch: [10][40/200]	Time 1.198 (1.644)	Data 0.000 (0.472)	Loss_ce 1.321 / 2.216	Loss_ce_soft 1.121 / 3.278	Loss_tri_soft 0.140 / 0.098	Loss_lf 5.120 / 3.060	Loss_lf_tri 0.155 / 0.126	Loss_mr 0.000 / 0.648	Prec 91.41% / 82.50%	
+Epoch: [10][60/200]	Time 1.236 (1.825)	Data 0.000 (0.640)	Loss_ce 1.314 / 2.213	Loss_ce_soft 1.098 / 3.211	Loss_tri_soft 0.140 / 0.120	Loss_lf 5.108 / 3.051	Loss_lf_tri 0.163 / 0.138	Loss_mr 0.000 / 0.648	Prec 91.25% / 82.08%	
+Epoch: [10][80/200]	Time 1.203 (1.672)	Data 0.001 (0.480)	Loss_ce 1.330 / 2.224	Loss_ce_soft 1.118 / 3.205	Loss_tri_soft 0.144 / 0.127	Loss_lf 5.108 / 3.066	Loss_lf_tri 0.167 / 0.141	Loss_mr 0.000 / 0.645	Prec 91.02% / 82.19%	
+Epoch: [10][100/200]	Time 1.213 (1.779)	Data 0.001 (0.579)	Loss_ce 1.330 / 2.241	Loss_ce_soft 1.140 / 3.222	Loss_tri_soft 0.151 / 0.135	Loss_lf 5.133 / 3.059	Loss_lf_tri 0.178 / 0.147	Loss_mr 0.000 / 0.644	Prec 91.19% / 82.50%	
+Epoch: [10][120/200]	Time 1.197 (1.846)	Data 0.001 (0.644)	Loss_ce 1.324 / 2.256	Loss_ce_soft 1.139 / 3.210	Loss_tri_soft 0.154 / 0.140	Loss_lf 5.124 / 3.049	Loss_lf_tri 0.183 / 0.151	Loss_mr 0.000 / 0.646	Prec 91.41% / 82.40%	
+Epoch: [10][140/200]	Time 1.208 (1.759)	Data 0.000 (0.552)	Loss_ce 1.322 / 2.278	Loss_ce_soft 1.144 / 3.224	Loss_tri_soft 0.151 / 0.135	Loss_lf 5.116 / 3.062	Loss_lf_tri 0.180 / 0.147	Loss_mr 0.000 / 0.648	Prec 91.34% / 82.19%	
+Epoch: [10][160/200]	Time 1.205 (1.812)	Data 0.000 (0.605)	Loss_ce 1.316 / 2.311	Loss_ce_soft 1.147 / 3.257	Loss_tri_soft 0.153 / 0.141	Loss_lf 5.123 / 3.098	Loss_lf_tri 0.185 / 0.154	Loss_mr 0.000 / 0.652	Prec 91.45% / 81.80%	
+Epoch: [10][180/200]	Time 1.195 (1.850)	Data 0.000 (0.643)	Loss_ce 1.315 / 2.332	Loss_ce_soft 1.146 / 3.276	Loss_tri_soft 0.151 / 0.145	Loss_lf 5.125 / 3.105	Loss_lf_tri 0.184 / 0.158	Loss_mr 0.000 / 0.654	Prec 91.42% / 81.60%	
+Epoch: [10][200/200]	Time 1.246 (1.973)	Data 0.000 (0.673)	Loss_ce 1.315 / 2.305	Loss_ce_soft 1.152 / 3.253	Loss_tri_soft 0.155 / 0.140	Loss_lf 5.129 / 3.090	Loss_lf_tri 0.188 / 0.154	Loss_mr 0.000 / 0.647	Prec 91.41% / 82.06%	
+Extract Features: [50/76]	Time 0.360 (0.771)	Data 0.001 (0.413)	
+Mean AP: 66.1%
+
+ * Finished phase   4 epoch  10  model no.1 mAP: 66.1%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.488954305648804
+Clustering and labeling...
+
+ Clustered into 114 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [11][20/200]	Time 1.182 (1.184)	Data 0.000 (0.000)	Loss_ce 1.365 / 2.106	Loss_ce_soft 1.127 / 3.175	Loss_tri_soft 0.225 / 0.120	Loss_lf 5.158 / 2.984	Loss_lf_tri 0.256 / 0.144	Loss_mr 0.000 / 0.621	Prec 89.38% / 83.75%	
+Epoch: [11][40/200]	Time 1.207 (1.675)	Data 0.000 (0.478)	Loss_ce 1.325 / 2.134	Loss_ce_soft 1.084 / 3.141	Loss_tri_soft 0.202 / 0.125	Loss_lf 5.120 / 3.016	Loss_lf_tri 0.230 / 0.151	Loss_mr 0.000 / 0.626	Prec 90.47% / 84.06%	
+Epoch: [11][60/200]	Time 1.196 (1.835)	Data 0.001 (0.638)	Loss_ce 1.308 / 2.167	Loss_ce_soft 1.078 / 3.122	Loss_tri_soft 0.176 / 0.111	Loss_lf 5.108 / 2.957	Loss_lf_tri 0.212 / 0.137	Loss_mr 0.000 / 0.632	Prec 91.46% / 83.44%	
+Epoch: [11][80/200]	Time 1.173 (1.681)	Data 0.001 (0.479)	Loss_ce 1.309 / 2.193	Loss_ce_soft 1.109 / 3.129	Loss_tri_soft 0.164 / 0.123	Loss_lf 5.129 / 3.014	Loss_lf_tri 0.203 / 0.143	Loss_mr 0.000 / 0.633	Prec 91.95% / 83.98%	
+Epoch: [11][100/200]	Time 1.219 (1.777)	Data 0.000 (0.574)	Loss_ce 1.317 / 2.237	Loss_ce_soft 1.122 / 3.150	Loss_tri_soft 0.159 / 0.124	Loss_lf 5.124 / 3.012	Loss_lf_tri 0.199 / 0.147	Loss_mr 0.000 / 0.639	Prec 91.50% / 83.88%	
+Epoch: [11][120/200]	Time 1.188 (1.840)	Data 0.000 (0.638)	Loss_ce 1.307 / 2.272	Loss_ce_soft 1.113 / 3.184	Loss_tri_soft 0.163 / 0.128	Loss_lf 5.129 / 3.051	Loss_lf_tri 0.200 / 0.150	Loss_mr 0.000 / 0.644	Prec 91.88% / 83.33%	
+Epoch: [11][140/200]	Time 1.174 (1.748)	Data 0.000 (0.547)	Loss_ce 1.307 / 2.276	Loss_ce_soft 1.120 / 3.177	Loss_tri_soft 0.167 / 0.133	Loss_lf 5.126 / 3.023	Loss_lf_tri 0.199 / 0.153	Loss_mr 0.000 / 0.643	Prec 91.92% / 83.08%	
+Epoch: [11][160/200]	Time 1.230 (1.800)	Data 0.000 (0.597)	Loss_ce 1.314 / 2.296	Loss_ce_soft 1.128 / 3.187	Loss_tri_soft 0.166 / 0.137	Loss_lf 5.127 / 3.043	Loss_lf_tri 0.197 / 0.154	Loss_mr 0.000 / 0.644	Prec 91.56% / 82.81%	
+Epoch: [11][180/200]	Time 1.177 (1.839)	Data 0.000 (0.637)	Loss_ce 1.312 / 2.321	Loss_ce_soft 1.125 / 3.202	Loss_tri_soft 0.159 / 0.141	Loss_lf 5.124 / 3.054	Loss_lf_tri 0.191 / 0.156	Loss_mr 0.000 / 0.646	Prec 91.60% / 82.33%	
+Epoch: [11][200/200]	Time 1.602 (1.964)	Data 0.000 (0.665)	Loss_ce 1.303 / 2.307	Loss_ce_soft 1.116 / 3.189	Loss_tri_soft 0.154 / 0.143	Loss_lf 5.127 / 3.040	Loss_lf_tri 0.185 / 0.157	Loss_mr 0.000 / 0.639	Prec 91.88% / 82.38%	
+Extract Features: [50/76]	Time 0.338 (0.741)	Data 0.001 (0.390)	
+Mean AP: 66.6%
+
+ * Finished phase   4 epoch  11  model no.1 mAP: 66.6%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.52694320678711
+Clustering and labeling...
+
+ Clustered into 115 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [12][20/200]	Time 1.228 (1.203)	Data 0.000 (0.000)	Loss_ce 1.334 / 2.115	Loss_ce_soft 1.044 / 3.021	Loss_tri_soft 0.112 / 0.083	Loss_lf 5.161 / 3.138	Loss_lf_tri 0.161 / 0.108	Loss_mr 0.000 / 0.640	Prec 89.06% / 82.81%	
+Epoch: [12][40/200]	Time 1.175 (1.659)	Data 0.000 (0.456)	Loss_ce 1.321 / 2.208	Loss_ce_soft 1.094 / 3.168	Loss_tri_soft 0.139 / 0.153	Loss_lf 5.180 / 3.127	Loss_lf_tri 0.182 / 0.159	Loss_mr 0.000 / 0.649	Prec 90.47% / 83.59%	
+Epoch: [12][60/200]	Time 1.181 (1.827)	Data 0.000 (0.626)	Loss_ce 1.314 / 2.253	Loss_ce_soft 1.058 / 3.189	Loss_tri_soft 0.144 / 0.166	Loss_lf 5.148 / 3.080	Loss_lf_tri 0.184 / 0.168	Loss_mr 0.000 / 0.655	Prec 91.25% / 82.92%	
+Epoch: [12][80/200]	Time 1.177 (1.670)	Data 0.000 (0.469)	Loss_ce 1.299 / 2.268	Loss_ce_soft 1.073 / 3.207	Loss_tri_soft 0.136 / 0.153	Loss_lf 5.160 / 3.074	Loss_lf_tri 0.177 / 0.158	Loss_mr 0.000 / 0.654	Prec 91.25% / 83.59%	
+Epoch: [12][100/200]	Time 1.181 (1.762)	Data 0.000 (0.565)	Loss_ce 1.293 / 2.300	Loss_ce_soft 1.043 / 3.253	Loss_tri_soft 0.129 / 0.161	Loss_lf 5.145 / 3.113	Loss_lf_tri 0.174 / 0.163	Loss_mr 0.000 / 0.659	Prec 91.75% / 82.88%	
+Epoch: [12][120/200]	Time 1.310 (1.842)	Data 0.000 (0.637)	Loss_ce 1.294 / 2.305	Loss_ce_soft 1.051 / 3.244	Loss_tri_soft 0.139 / 0.157	Loss_lf 5.145 / 3.134	Loss_lf_tri 0.182 / 0.163	Loss_mr 0.000 / 0.658	Prec 91.67% / 82.76%	
+Epoch: [12][140/200]	Time 1.251 (1.759)	Data 0.000 (0.546)	Loss_ce 1.295 / 2.319	Loss_ce_soft 1.056 / 3.240	Loss_tri_soft 0.136 / 0.158	Loss_lf 5.140 / 3.131	Loss_lf_tri 0.181 / 0.166	Loss_mr 0.000 / 0.658	Prec 91.56% / 82.23%	
+Epoch: [12][160/200]	Time 1.323 (1.829)	Data 0.001 (0.603)	Loss_ce 1.290 / 2.328	Loss_ce_soft 1.047 / 3.235	Loss_tri_soft 0.134 / 0.156	Loss_lf 5.138 / 3.128	Loss_lf_tri 0.178 / 0.165	Loss_mr 0.000 / 0.658	Prec 91.76% / 82.34%	
+Epoch: [12][180/200]	Time 1.188 (1.882)	Data 0.001 (0.653)	Loss_ce 1.284 / 2.354	Loss_ce_soft 1.043 / 3.258	Loss_tri_soft 0.132 / 0.154	Loss_lf 5.135 / 3.114	Loss_lf_tri 0.176 / 0.164	Loss_mr 0.000 / 0.660	Prec 91.91% / 81.84%	
+Epoch: [12][200/200]	Time 1.193 (2.009)	Data 0.000 (0.685)	Loss_ce 1.279 / 2.346	Loss_ce_soft 1.045 / 3.264	Loss_tri_soft 0.135 / 0.153	Loss_lf 5.131 / 3.104	Loss_lf_tri 0.177 / 0.164	Loss_mr 0.000 / 0.655	Prec 92.12% / 82.00%	
+Extract Features: [50/76]	Time 0.381 (0.748)	Data 0.000 (0.384)	
+Mean AP: 66.2%
+
+ * Finished phase   4 epoch  12  model no.1 mAP: 66.2%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.445967674255371
+Clustering and labeling...
+
+ Clustered into 114 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [13][20/200]	Time 1.190 (1.190)	Data 0.000 (0.000)	Loss_ce 1.376 / 2.115	Loss_ce_soft 1.130 / 2.982	Loss_tri_soft 0.158 / 0.103	Loss_lf 5.138 / 2.796	Loss_lf_tri 0.195 / 0.128	Loss_mr 0.000 / 0.620	Prec 89.38% / 84.06%	
+Epoch: [13][40/200]	Time 1.220 (1.683)	Data 0.000 (0.479)	Loss_ce 1.375 / 2.197	Loss_ce_soft 1.172 / 3.097	Loss_tri_soft 0.179 / 0.152	Loss_lf 5.132 / 2.915	Loss_lf_tri 0.205 / 0.169	Loss_mr 0.000 / 0.637	Prec 90.47% / 82.81%	
+Epoch: [13][60/200]	Time 1.179 (1.841)	Data 0.000 (0.639)	Loss_ce 1.385 / 2.215	Loss_ce_soft 1.185 / 3.128	Loss_tri_soft 0.180 / 0.154	Loss_lf 5.155 / 2.913	Loss_lf_tri 0.206 / 0.172	Loss_mr 0.000 / 0.637	Prec 90.21% / 83.12%	
+Epoch: [13][80/200]	Time 1.182 (1.684)	Data 0.001 (0.479)	Loss_ce 1.375 / 2.249	Loss_ce_soft 1.167 / 3.152	Loss_tri_soft 0.167 / 0.147	Loss_lf 5.150 / 2.940	Loss_lf_tri 0.199 / 0.165	Loss_mr 0.000 / 0.643	Prec 89.92% / 82.97%	
+Epoch: [13][100/200]	Time 1.184 (1.779)	Data 0.001 (0.575)	Loss_ce 1.375 / 2.256	Loss_ce_soft 1.184 / 3.149	Loss_tri_soft 0.170 / 0.140	Loss_lf 5.155 / 2.959	Loss_lf_tri 0.200 / 0.158	Loss_mr 0.000 / 0.644	Prec 89.94% / 83.19%	
+Epoch: [13][120/200]	Time 1.493 (1.844)	Data 0.000 (0.642)	Loss_ce 1.382 / 2.282	Loss_ce_soft 1.203 / 3.153	Loss_tri_soft 0.174 / 0.131	Loss_lf 5.164 / 3.004	Loss_lf_tri 0.205 / 0.152	Loss_mr 0.000 / 0.647	Prec 89.48% / 82.60%	
+Epoch: [13][140/200]	Time 1.180 (1.747)	Data 0.000 (0.550)	Loss_ce 1.369 / 2.297	Loss_ce_soft 1.194 / 3.168	Loss_tri_soft 0.173 / 0.132	Loss_lf 5.164 / 3.015	Loss_lf_tri 0.207 / 0.153	Loss_mr 0.000 / 0.647	Prec 89.64% / 82.37%	
+Epoch: [13][160/200]	Time 1.544 (1.794)	Data 0.000 (0.598)	Loss_ce 1.364 / 2.314	Loss_ce_soft 1.185 / 3.182	Loss_tri_soft 0.170 / 0.134	Loss_lf 5.165 / 3.052	Loss_lf_tri 0.205 / 0.154	Loss_mr 0.000 / 0.651	Prec 89.65% / 82.07%	
+Epoch: [13][180/200]	Time 1.182 (1.825)	Data 0.001 (0.634)	Loss_ce 1.354 / 2.326	Loss_ce_soft 1.170 / 3.188	Loss_tri_soft 0.175 / 0.130	Loss_lf 5.164 / 3.056	Loss_lf_tri 0.209 / 0.151	Loss_mr 0.000 / 0.651	Prec 89.97% / 81.84%	
+Epoch: [13][200/200]	Time 1.148 (1.943)	Data 0.000 (0.662)	Loss_ce 1.347 / 2.312	Loss_ce_soft 1.168 / 3.190	Loss_tri_soft 0.169 / 0.126	Loss_lf 5.156 / 3.044	Loss_lf_tri 0.205 / 0.149	Loss_mr 0.000 / 0.643	Prec 90.12% / 82.22%	
+Extract Features: [50/76]	Time 0.355 (0.740)	Data 0.001 (0.379)	
+Mean AP: 66.7%
+
+ * Finished phase   4 epoch  13  model no.1 mAP: 66.7%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.5179443359375
+Clustering and labeling...
+
+ Clustered into 109 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [14][20/200]	Time 1.191 (1.195)	Data 0.000 (0.000)	Loss_ce 1.381 / 2.103	Loss_ce_soft 1.152 / 3.136	Loss_tri_soft 0.208 / 0.130	Loss_lf 5.186 / 2.943	Loss_lf_tri 0.243 / 0.136	Loss_mr 0.000 / 0.613	Prec 87.81% / 84.38%	
+Epoch: [14][40/200]	Time 1.217 (1.660)	Data 0.000 (0.458)	Loss_ce 1.306 / 2.188	Loss_ce_soft 1.068 / 3.167	Loss_tri_soft 0.182 / 0.168	Loss_lf 5.148 / 3.164	Loss_lf_tri 0.213 / 0.168	Loss_mr 0.000 / 0.637	Prec 91.41% / 83.28%	
+Epoch: [14][60/200]	Time 1.174 (1.815)	Data 0.000 (0.615)	Loss_ce 1.301 / 2.174	Loss_ce_soft 1.073 / 3.115	Loss_tri_soft 0.169 / 0.149	Loss_lf 5.149 / 3.041	Loss_lf_tri 0.207 / 0.157	Loss_mr 0.000 / 0.634	Prec 92.19% / 83.65%	
+Epoch: [14][80/200]	Time 1.625 (1.664)	Data 0.000 (0.462)	Loss_ce 1.286 / 2.225	Loss_ce_soft 1.069 / 3.172	Loss_tri_soft 0.173 / 0.139	Loss_lf 5.160 / 3.060	Loss_lf_tri 0.208 / 0.150	Loss_mr 0.000 / 0.640	Prec 92.58% / 83.44%	
+Epoch: [14][100/200]	Time 1.177 (1.763)	Data 0.000 (0.561)	Loss_ce 1.310 / 2.232	Loss_ce_soft 1.100 / 3.159	Loss_tri_soft 0.175 / 0.145	Loss_lf 5.158 / 3.041	Loss_lf_tri 0.210 / 0.155	Loss_mr 0.000 / 0.638	Prec 91.50% / 83.75%	
+Epoch: [14][120/200]	Time 1.195 (1.821)	Data 0.000 (0.622)	Loss_ce 1.299 / 2.253	Loss_ce_soft 1.091 / 3.175	Loss_tri_soft 0.164 / 0.137	Loss_lf 5.150 / 3.008	Loss_lf_tri 0.202 / 0.148	Loss_mr 0.000 / 0.639	Prec 91.61% / 83.85%	
+Epoch: [14][140/200]	Time 1.469 (1.904)	Data 0.000 (0.695)	Loss_ce 1.296 / 2.295	Loss_ce_soft 1.088 / 3.202	Loss_tri_soft 0.161 / 0.139	Loss_lf 5.154 / 3.048	Loss_lf_tri 0.197 / 0.151	Loss_mr 0.000 / 0.646	Prec 91.74% / 83.30%	
+Epoch: [14][160/200]	Time 1.446 (1.851)	Data 0.000 (0.608)	Loss_ce 1.289 / 2.297	Loss_ce_soft 1.079 / 3.178	Loss_tri_soft 0.154 / 0.135	Loss_lf 5.146 / 3.039	Loss_lf_tri 0.191 / 0.149	Loss_mr 0.000 / 0.644	Prec 91.95% / 83.24%	
+Epoch: [14][180/200]	Time 1.468 (1.938)	Data 0.000 (0.668)	Loss_ce 1.288 / 2.318	Loss_ce_soft 1.084 / 3.197	Loss_tri_soft 0.149 / 0.134	Loss_lf 5.145 / 3.070	Loss_lf_tri 0.188 / 0.148	Loss_mr 0.000 / 0.645	Prec 91.98% / 82.78%	
+Epoch: [14][200/200]	Time 1.464 (2.119)	Data 0.000 (0.715)	Loss_ce 1.281 / 2.298	Loss_ce_soft 1.077 / 3.191	Loss_tri_soft 0.151 / 0.132	Loss_lf 5.144 / 3.061	Loss_lf_tri 0.190 / 0.148	Loss_mr 0.000 / 0.638	Prec 91.97% / 83.25%	
+Extract Features: [50/76]	Time 0.340 (0.826)	Data 0.000 (0.473)	
+Mean AP: 66.4%
+
+ * Finished phase   4 epoch  14  model no.1 mAP: 66.4%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 11.470317840576172
+Clustering and labeling...
+
+ Clustered into 109 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [15][20/200]	Time 1.527 (1.502)	Data 0.000 (0.000)	Loss_ce 1.298 / 2.213	Loss_ce_soft 1.030 / 3.143	Loss_tri_soft 0.115 / 0.141	Loss_lf 5.153 / 2.901	Loss_lf_tri 0.168 / 0.169	Loss_mr 0.000 / 0.607	Prec 91.25% / 81.56%	
+Epoch: [15][40/200]	Time 1.503 (2.078)	Data 0.000 (0.575)	Loss_ce 1.372 / 2.264	Loss_ce_soft 1.103 / 3.172	Loss_tri_soft 0.145 / 0.142	Loss_lf 5.162 / 2.993	Loss_lf_tri 0.188 / 0.172	Loss_mr 0.000 / 0.623	Prec 90.00% / 80.94%	
+Epoch: [15][60/200]	Time 1.968 (2.284)	Data 0.000 (0.772)	Loss_ce 1.328 / 2.263	Loss_ce_soft 1.069 / 3.183	Loss_tri_soft 0.130 / 0.117	Loss_lf 5.147 / 3.064	Loss_lf_tri 0.176 / 0.147	Loss_mr 0.000 / 0.633	Prec 91.15% / 81.56%	
+Epoch: [15][80/200]	Time 1.584 (2.092)	Data 0.000 (0.579)	Loss_ce 1.336 / 2.273	Loss_ce_soft 1.090 / 3.183	Loss_tri_soft 0.146 / 0.113	Loss_lf 5.143 / 3.054	Loss_lf_tri 0.193 / 0.145	Loss_mr 0.000 / 0.639	Prec 91.02% / 82.03%	
+Epoch: [15][100/200]	Time 1.442 (2.210)	Data 0.000 (0.697)	Loss_ce 1.315 / 2.285	Loss_ce_soft 1.065 / 3.189	Loss_tri_soft 0.136 / 0.114	Loss_lf 5.142 / 3.044	Loss_lf_tri 0.183 / 0.144	Loss_mr 0.000 / 0.641	Prec 91.38% / 82.44%	
+Epoch: [15][120/200]	Time 1.569 (2.291)	Data 0.000 (0.774)	Loss_ce 1.298 / 2.297	Loss_ce_soft 1.064 / 3.198	Loss_tri_soft 0.131 / 0.114	Loss_lf 5.145 / 3.039	Loss_lf_tri 0.176 / 0.144	Loss_mr 0.000 / 0.642	Prec 91.72% / 82.19%	
+Epoch: [15][140/200]	Time 1.492 (2.345)	Data 0.000 (0.828)	Loss_ce 1.302 / 2.329	Loss_ce_soft 1.077 / 3.224	Loss_tri_soft 0.136 / 0.130	Loss_lf 5.146 / 3.107	Loss_lf_tri 0.181 / 0.158	Loss_mr 0.000 / 0.647	Prec 91.38% / 82.10%	
+Epoch: [15][160/200]	Time 1.557 (2.241)	Data 0.000 (0.725)	Loss_ce 1.290 / 2.346	Loss_ce_soft 1.068 / 3.229	Loss_tri_soft 0.137 / 0.124	Loss_lf 5.139 / 3.109	Loss_lf_tri 0.183 / 0.150	Loss_mr 0.000 / 0.649	Prec 91.64% / 81.45%	
+Epoch: [15][180/200]	Time 1.532 (2.291)	Data 0.001 (0.773)	Loss_ce 1.286 / 2.362	Loss_ce_soft 1.066 / 3.236	Loss_tri_soft 0.136 / 0.122	Loss_lf 5.141 / 3.091	Loss_lf_tri 0.183 / 0.148	Loss_mr 0.000 / 0.650	Prec 91.84% / 81.39%	
+Epoch: [15][200/200]	Time 1.513 (2.445)	Data 0.000 (0.811)	Loss_ce 1.282 / 2.344	Loss_ce_soft 1.067 / 3.234	Loss_tri_soft 0.139 / 0.121	Loss_lf 5.138 / 3.095	Loss_lf_tri 0.186 / 0.147	Loss_mr 0.000 / 0.643	Prec 91.97% / 81.84%	
+Extract Features: [50/76]	Time 0.344 (0.828)	Data 0.000 (0.467)	
+Mean AP: 65.8%
+
+ * Finished phase   4 epoch  15  model no.1 mAP: 65.8%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.501948833465576
+Clustering and labeling...
+
+ Clustered into 113 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [16][20/200]	Time 1.445 (1.489)	Data 0.000 (0.000)	Loss_ce 1.474 / 2.153	Loss_ce_soft 1.267 / 3.107	Loss_tri_soft 0.192 / 0.112	Loss_lf 5.208 / 3.116	Loss_lf_tri 0.230 / 0.133	Loss_mr 0.000 / 0.643	Prec 86.88% / 83.75%	
+Epoch: [16][40/200]	Time 1.403 (2.072)	Data 0.001 (0.564)	Loss_ce 1.409 / 2.157	Loss_ce_soft 1.244 / 3.099	Loss_tri_soft 0.184 / 0.109	Loss_lf 5.189 / 2.932	Loss_lf_tri 0.218 / 0.127	Loss_mr 0.000 / 0.633	Prec 89.38% / 84.38%	
+Epoch: [16][60/200]	Time 1.418 (2.250)	Data 0.000 (0.759)	Loss_ce 1.371 / 2.258	Loss_ce_soft 1.218 / 3.199	Loss_tri_soft 0.158 / 0.115	Loss_lf 5.188 / 3.003	Loss_lf_tri 0.203 / 0.137	Loss_mr 0.000 / 0.651	Prec 90.42% / 82.81%	
+Epoch: [16][80/200]	Time 1.470 (2.052)	Data 0.000 (0.569)	Loss_ce 1.357 / 2.263	Loss_ce_soft 1.197 / 3.201	Loss_tri_soft 0.149 / 0.125	Loss_lf 5.180 / 3.041	Loss_lf_tri 0.194 / 0.151	Loss_mr 0.000 / 0.650	Prec 90.55% / 82.58%	
+Epoch: [16][100/200]	Time 1.447 (2.165)	Data 0.000 (0.686)	Loss_ce 1.339 / 2.263	Loss_ce_soft 1.177 / 3.188	Loss_tri_soft 0.145 / 0.125	Loss_lf 5.183 / 3.005	Loss_lf_tri 0.187 / 0.153	Loss_mr 0.000 / 0.645	Prec 90.88% / 82.31%	
+Epoch: [16][120/200]	Time 1.487 (2.240)	Data 0.001 (0.762)	Loss_ce 1.339 / 2.264	Loss_ce_soft 1.181 / 3.162	Loss_tri_soft 0.146 / 0.122	Loss_lf 5.187 / 3.037	Loss_lf_tri 0.188 / 0.150	Loss_mr 0.000 / 0.644	Prec 90.94% / 82.71%	
+Epoch: [16][140/200]	Time 1.319 (2.124)	Data 0.000 (0.653)	Loss_ce 1.336 / 2.274	Loss_ce_soft 1.173 / 3.164	Loss_tri_soft 0.145 / 0.121	Loss_lf 5.178 / 3.032	Loss_lf_tri 0.188 / 0.147	Loss_mr 0.000 / 0.643	Prec 90.85% / 82.95%	
+Epoch: [16][160/200]	Time 1.137 (2.118)	Data 0.001 (0.687)	Loss_ce 1.331 / 2.293	Loss_ce_soft 1.164 / 3.168	Loss_tri_soft 0.148 / 0.119	Loss_lf 5.182 / 3.038	Loss_lf_tri 0.188 / 0.143	Loss_mr 0.000 / 0.645	Prec 90.66% / 82.70%	
+Epoch: [16][180/200]	Time 1.163 (2.112)	Data 0.000 (0.708)	Loss_ce 1.323 / 2.306	Loss_ce_soft 1.151 / 3.174	Loss_tri_soft 0.154 / 0.121	Loss_lf 5.178 / 3.051	Loss_lf_tri 0.192 / 0.144	Loss_mr 0.000 / 0.647	Prec 90.80% / 82.53%	
+Epoch: [16][200/200]	Time 1.187 (2.208)	Data 0.000 (0.730)	Loss_ce 1.324 / 2.283	Loss_ce_soft 1.159 / 3.164	Loss_tri_soft 0.156 / 0.124	Loss_lf 5.181 / 3.075	Loss_lf_tri 0.194 / 0.146	Loss_mr 0.000 / 0.641	Prec 90.72% / 83.03%	
+Extract Features: [50/76]	Time 0.369 (0.736)	Data 0.001 (0.382)	
+Mean AP: 66.0%
+
+ * Finished phase   4 epoch  16  model no.1 mAP: 66.0%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.302015542984009
+Clustering and labeling...
+
+ Clustered into 103 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [17][20/200]	Time 1.168 (1.203)	Data 0.000 (0.000)	Loss_ce 1.270 / 2.040	Loss_ce_soft 1.015 / 3.018	Loss_tri_soft 0.156 / 0.106	Loss_lf 5.160 / 2.923	Loss_lf_tri 0.181 / 0.131	Loss_mr 0.000 / 0.600	Prec 93.12% / 87.50%	
+Epoch: [17][40/200]	Time 1.164 (1.662)	Data 0.001 (0.469)	Loss_ce 1.263 / 2.091	Loss_ce_soft 1.004 / 3.029	Loss_tri_soft 0.153 / 0.108	Loss_lf 5.149 / 2.898	Loss_lf_tri 0.187 / 0.126	Loss_mr 0.000 / 0.605	Prec 93.12% / 86.88%	
+Epoch: [17][60/200]	Time 1.166 (1.817)	Data 0.000 (0.630)	Loss_ce 1.258 / 2.139	Loss_ce_soft 0.982 / 3.053	Loss_tri_soft 0.153 / 0.121	Loss_lf 5.163 / 2.923	Loss_lf_tri 0.190 / 0.137	Loss_mr 0.000 / 0.614	Prec 92.92% / 85.31%	
+Epoch: [17][80/200]	Time 1.203 (1.894)	Data 0.000 (0.706)	Loss_ce 1.257 / 2.184	Loss_ce_soft 0.991 / 3.107	Loss_tri_soft 0.150 / 0.121	Loss_lf 5.162 / 2.954	Loss_lf_tri 0.192 / 0.140	Loss_mr 0.000 / 0.621	Prec 92.66% / 85.08%	
+Epoch: [17][100/200]	Time 1.185 (1.751)	Data 0.000 (0.565)	Loss_ce 1.263 / 2.221	Loss_ce_soft 1.003 / 3.130	Loss_tri_soft 0.144 / 0.125	Loss_lf 5.169 / 2.971	Loss_lf_tri 0.190 / 0.141	Loss_mr 0.000 / 0.625	Prec 92.25% / 84.44%	
+Epoch: [17][120/200]	Time 1.182 (1.819)	Data 0.000 (0.630)	Loss_ce 1.262 / 2.248	Loss_ce_soft 1.004 / 3.148	Loss_tri_soft 0.138 / 0.124	Loss_lf 5.172 / 3.006	Loss_lf_tri 0.183 / 0.141	Loss_mr 0.000 / 0.629	Prec 92.08% / 84.06%	
+Epoch: [17][140/200]	Time 1.166 (1.864)	Data 0.001 (0.676)	Loss_ce 1.265 / 2.274	Loss_ce_soft 1.009 / 3.168	Loss_tri_soft 0.141 / 0.126	Loss_lf 5.178 / 3.033	Loss_lf_tri 0.189 / 0.144	Loss_mr 0.000 / 0.633	Prec 91.96% / 83.53%	
+Epoch: [17][160/200]	Time 1.164 (1.897)	Data 0.000 (0.709)	Loss_ce 1.257 / 2.295	Loss_ce_soft 1.012 / 3.173	Loss_tri_soft 0.144 / 0.121	Loss_lf 5.187 / 3.037	Loss_lf_tri 0.189 / 0.139	Loss_mr 0.000 / 0.636	Prec 92.27% / 83.20%	
+Epoch: [17][180/200]	Time 1.160 (1.924)	Data 0.001 (0.735)	Loss_ce 1.259 / 2.304	Loss_ce_soft 1.020 / 3.169	Loss_tri_soft 0.142 / 0.116	Loss_lf 5.186 / 3.042	Loss_lf_tri 0.190 / 0.134	Loss_mr 0.000 / 0.636	Prec 92.26% / 83.44%	
+Epoch: [17][200/200]	Time 1.157 (1.945)	Data 0.000 (0.661)	Loss_ce 1.257 / 2.290	Loss_ce_soft 1.019 / 3.185	Loss_tri_soft 0.140 / 0.116	Loss_lf 5.183 / 3.034	Loss_lf_tri 0.187 / 0.135	Loss_mr 0.000 / 0.631	Prec 92.28% / 83.69%	
+Extract Features: [50/76]	Time 0.355 (0.741)	Data 0.000 (0.390)	
+Mean AP: 66.1%
+
+ * Finished phase   4 epoch  17  model no.1 mAP: 66.1%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.258028030395508
+Clustering and labeling...
+
+ Clustered into 113 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [18][20/200]	Time 1.169 (1.208)	Data 0.000 (0.000)	Loss_ce 1.287 / 2.115	Loss_ce_soft 1.106 / 3.216	Loss_tri_soft 0.207 / 0.139	Loss_lf 5.220 / 3.165	Loss_lf_tri 0.221 / 0.157	Loss_mr 0.000 / 0.609	Prec 92.19% / 85.62%	
+Epoch: [18][40/200]	Time 1.198 (1.671)	Data 0.000 (0.475)	Loss_ce 1.281 / 2.198	Loss_ce_soft 1.099 / 3.283	Loss_tri_soft 0.167 / 0.139	Loss_lf 5.226 / 3.082	Loss_lf_tri 0.198 / 0.164	Loss_mr 0.000 / 0.631	Prec 91.41% / 83.28%	
+Epoch: [18][60/200]	Time 1.169 (1.827)	Data 0.000 (0.634)	Loss_ce 1.266 / 2.243	Loss_ce_soft 1.078 / 3.254	Loss_tri_soft 0.163 / 0.132	Loss_lf 5.201 / 3.080	Loss_lf_tri 0.200 / 0.159	Loss_mr 0.000 / 0.639	Prec 92.40% / 82.29%	
+Epoch: [18][80/200]	Time 1.729 (1.674)	Data 0.001 (0.476)	Loss_ce 1.280 / 2.234	Loss_ce_soft 1.103 / 3.192	Loss_tri_soft 0.151 / 0.129	Loss_lf 5.195 / 3.069	Loss_lf_tri 0.195 / 0.158	Loss_mr 0.000 / 0.638	Prec 91.80% / 82.89%	
+Epoch: [18][100/200]	Time 1.196 (1.767)	Data 0.000 (0.572)	Loss_ce 1.294 / 2.273	Loss_ce_soft 1.122 / 3.200	Loss_tri_soft 0.155 / 0.128	Loss_lf 5.184 / 3.043	Loss_lf_tri 0.202 / 0.154	Loss_mr 0.000 / 0.641	Prec 91.31% / 81.50%	
+Epoch: [18][120/200]	Time 1.166 (1.829)	Data 0.000 (0.636)	Loss_ce 1.296 / 2.277	Loss_ce_soft 1.129 / 3.189	Loss_tri_soft 0.151 / 0.127	Loss_lf 5.190 / 3.053	Loss_lf_tri 0.202 / 0.153	Loss_mr 0.000 / 0.639	Prec 91.46% / 81.67%	
+Epoch: [18][140/200]	Time 1.193 (1.736)	Data 0.000 (0.545)	Loss_ce 1.292 / 2.299	Loss_ce_soft 1.125 / 3.203	Loss_tri_soft 0.147 / 0.129	Loss_lf 5.184 / 3.056	Loss_lf_tri 0.198 / 0.155	Loss_mr 0.000 / 0.642	Prec 91.38% / 81.29%	
+Epoch: [18][160/200]	Time 1.190 (1.790)	Data 0.001 (0.597)	Loss_ce 1.290 / 2.314	Loss_ce_soft 1.120 / 3.218	Loss_tri_soft 0.146 / 0.130	Loss_lf 5.183 / 3.082	Loss_lf_tri 0.198 / 0.154	Loss_mr 0.000 / 0.644	Prec 91.52% / 81.41%	
+Epoch: [18][180/200]	Time 1.160 (1.829)	Data 0.000 (0.636)	Loss_ce 1.283 / 2.335	Loss_ce_soft 1.115 / 3.229	Loss_tri_soft 0.147 / 0.128	Loss_lf 5.182 / 3.088	Loss_lf_tri 0.194 / 0.152	Loss_mr 0.000 / 0.645	Prec 91.42% / 81.15%	
+Epoch: [18][200/200]	Time 1.152 (1.943)	Data 0.000 (0.663)	Loss_ce 1.283 / 2.301	Loss_ce_soft 1.110 / 3.200	Loss_tri_soft 0.148 / 0.122	Loss_lf 5.174 / 3.087	Loss_lf_tri 0.196 / 0.148	Loss_mr 0.000 / 0.634	Prec 91.28% / 81.97%	
+Extract Features: [50/76]	Time 0.356 (0.723)	Data 0.001 (0.372)	
+Mean AP: 66.1%
+
+ * Finished phase   4 epoch  18  model no.1 mAP: 66.1%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.245030164718628
+Clustering and labeling...
+
+ Clustered into 109 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [19][20/200]	Time 1.181 (1.187)	Data 0.000 (0.000)	Loss_ce 1.302 / 2.162	Loss_ce_soft 1.069 / 3.057	Loss_tri_soft 0.123 / 0.133	Loss_lf 5.143 / 2.808	Loss_lf_tri 0.152 / 0.150	Loss_mr 0.000 / 0.601	Prec 91.88% / 80.94%	
+Epoch: [19][40/200]	Time 1.207 (1.673)	Data 0.001 (0.474)	Loss_ce 1.346 / 2.217	Loss_ce_soft 1.130 / 3.132	Loss_tri_soft 0.163 / 0.155	Loss_lf 5.179 / 2.969	Loss_lf_tri 0.197 / 0.163	Loss_mr 0.000 / 0.626	Prec 90.16% / 80.78%	
+Epoch: [19][60/200]	Time 1.191 (1.820)	Data 0.000 (0.627)	Loss_ce 1.316 / 2.258	Loss_ce_soft 1.116 / 3.194	Loss_tri_soft 0.134 / 0.145	Loss_lf 5.168 / 2.977	Loss_lf_tri 0.171 / 0.156	Loss_mr 0.000 / 0.635	Prec 91.56% / 80.94%	
+Epoch: [19][80/200]	Time 1.167 (1.660)	Data 0.000 (0.470)	Loss_ce 1.325 / 2.295	Loss_ce_soft 1.136 / 3.217	Loss_tri_soft 0.146 / 0.137	Loss_lf 5.186 / 3.018	Loss_lf_tri 0.182 / 0.150	Loss_mr 0.000 / 0.642	Prec 90.94% / 80.62%	
+Epoch: [19][100/200]	Time 1.206 (1.753)	Data 0.000 (0.563)	Loss_ce 1.314 / 2.269	Loss_ce_soft 1.136 / 3.171	Loss_tri_soft 0.136 / 0.125	Loss_lf 5.169 / 3.039	Loss_lf_tri 0.175 / 0.141	Loss_mr 0.000 / 0.639	Prec 91.12% / 81.38%	
+Epoch: [19][120/200]	Time 1.197 (1.817)	Data 0.000 (0.628)	Loss_ce 1.310 / 2.293	Loss_ce_soft 1.137 / 3.182	Loss_tri_soft 0.132 / 0.122	Loss_lf 5.169 / 3.038	Loss_lf_tri 0.177 / 0.141	Loss_mr 0.000 / 0.641	Prec 91.20% / 81.20%	
+Epoch: [19][140/200]	Time 1.182 (1.865)	Data 0.000 (0.673)	Loss_ce 1.306 / 2.307	Loss_ce_soft 1.129 / 3.192	Loss_tri_soft 0.132 / 0.125	Loss_lf 5.166 / 3.052	Loss_lf_tri 0.177 / 0.142	Loss_mr 0.000 / 0.640	Prec 91.21% / 81.25%	
+Epoch: [19][160/200]	Time 1.164 (1.780)	Data 0.000 (0.589)	Loss_ce 1.296 / 2.335	Loss_ce_soft 1.127 / 3.215	Loss_tri_soft 0.136 / 0.124	Loss_lf 5.159 / 3.071	Loss_lf_tri 0.181 / 0.141	Loss_mr 0.000 / 0.643	Prec 91.48% / 81.02%	
+Epoch: [19][180/200]	Time 1.163 (1.818)	Data 0.001 (0.628)	Loss_ce 1.299 / 2.334	Loss_ce_soft 1.126 / 3.213	Loss_tri_soft 0.134 / 0.123	Loss_lf 5.157 / 3.081	Loss_lf_tri 0.179 / 0.142	Loss_mr 0.000 / 0.642	Prec 91.28% / 81.32%	
+Epoch: [19][200/200]	Time 1.182 (1.943)	Data 0.000 (0.659)	Loss_ce 1.301 / 2.299	Loss_ce_soft 1.126 / 3.181	Loss_tri_soft 0.133 / 0.119	Loss_lf 5.152 / 3.079	Loss_lf_tri 0.179 / 0.139	Loss_mr 0.000 / 0.633	Prec 91.34% / 82.03%	
+Extract Features: [50/76]	Time 0.376 (0.741)	Data 0.000 (0.382)	
+Mean AP: 66.0%
+
+ * Finished phase   4 epoch  19  model no.1 mAP: 66.0%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.349998474121094
+Clustering and labeling...
+
+ Clustered into 108 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [20][20/200]	Time 1.181 (1.182)	Data 0.000 (0.000)	Loss_ce 1.276 / 2.015	Loss_ce_soft 1.078 / 2.875	Loss_tri_soft 0.107 / 0.101	Loss_lf 5.153 / 2.893	Loss_lf_tri 0.171 / 0.125	Loss_mr 0.000 / 0.589	Prec 91.56% / 85.00%	
+Epoch: [20][40/200]	Time 1.227 (1.656)	Data 0.001 (0.476)	Loss_ce 1.265 / 2.100	Loss_ce_soft 1.068 / 3.000	Loss_tri_soft 0.106 / 0.109	Loss_lf 5.181 / 3.028	Loss_lf_tri 0.159 / 0.138	Loss_mr 0.000 / 0.613	Prec 92.19% / 84.69%	
+Epoch: [20][60/200]	Time 1.204 (1.824)	Data 0.001 (0.634)	Loss_ce 1.262 / 2.141	Loss_ce_soft 1.032 / 3.041	Loss_tri_soft 0.116 / 0.112	Loss_lf 5.168 / 3.062	Loss_lf_tri 0.170 / 0.141	Loss_mr 0.000 / 0.625	Prec 92.29% / 84.58%	
+Epoch: [20][80/200]	Time 1.158 (1.664)	Data 0.001 (0.476)	Loss_ce 1.269 / 2.182	Loss_ce_soft 1.043 / 3.084	Loss_tri_soft 0.110 / 0.109	Loss_lf 5.178 / 3.080	Loss_lf_tri 0.165 / 0.141	Loss_mr 0.000 / 0.632	Prec 92.58% / 84.06%	
+Epoch: [20][100/200]	Time 1.166 (1.761)	Data 0.000 (0.574)	Loss_ce 1.272 / 2.206	Loss_ce_soft 1.051 / 3.113	Loss_tri_soft 0.119 / 0.108	Loss_lf 5.191 / 3.058	Loss_lf_tri 0.175 / 0.139	Loss_mr 0.000 / 0.633	Prec 92.31% / 84.31%	
+Epoch: [20][120/200]	Time 1.215 (1.825)	Data 0.000 (0.638)	Loss_ce 1.272 / 2.234	Loss_ce_soft 1.073 / 3.126	Loss_tri_soft 0.125 / 0.102	Loss_lf 5.190 / 3.025	Loss_lf_tri 0.180 / 0.134	Loss_mr 0.000 / 0.635	Prec 92.40% / 83.91%	
+Epoch: [20][140/200]	Time 1.188 (1.868)	Data 0.000 (0.680)	Loss_ce 1.271 / 2.241	Loss_ce_soft 1.073 / 3.125	Loss_tri_soft 0.124 / 0.100	Loss_lf 5.187 / 3.038	Loss_lf_tri 0.182 / 0.133	Loss_mr 0.000 / 0.634	Prec 92.46% / 83.93%	
+Epoch: [20][160/200]	Time 1.167 (1.786)	Data 0.000 (0.595)	Loss_ce 1.277 / 2.265	Loss_ce_soft 1.091 / 3.150	Loss_tri_soft 0.129 / 0.103	Loss_lf 5.182 / 3.026	Loss_lf_tri 0.184 / 0.137	Loss_mr 0.000 / 0.635	Prec 92.30% / 83.59%	
+Epoch: [20][180/200]	Time 1.132 (1.823)	Data 0.001 (0.633)	Loss_ce 1.276 / 2.285	Loss_ce_soft 1.088 / 3.169	Loss_tri_soft 0.128 / 0.101	Loss_lf 5.180 / 3.046	Loss_lf_tri 0.184 / 0.135	Loss_mr 0.000 / 0.637	Prec 92.22% / 83.54%	
+Epoch: [20][200/200]	Time 1.158 (1.938)	Data 0.000 (0.660)	Loss_ce 1.267 / 2.255	Loss_ce_soft 1.078 / 3.148	Loss_tri_soft 0.127 / 0.102	Loss_lf 5.178 / 3.020	Loss_lf_tri 0.182 / 0.135	Loss_mr 0.000 / 0.627	Prec 92.53% / 84.00%	
+Extract Features: [50/76]	Time 0.351 (0.724)	Data 0.001 (0.374)	
+Mean AP: 65.5%
+
+ * Finished phase   4 epoch  20  model no.1 mAP: 65.5%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.385986804962158
+Clustering and labeling...
+
+ Clustered into 115 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [21][20/200]	Time 1.222 (1.192)	Data 0.000 (0.000)	Loss_ce 1.428 / 2.141	Loss_ce_soft 1.167 / 3.127	Loss_tri_soft 0.164 / 0.137	Loss_lf 5.191 / 2.872	Loss_lf_tri 0.191 / 0.150	Loss_mr 0.000 / 0.624	Prec 87.81% / 84.38%	
+Epoch: [21][40/200]	Time 1.183 (1.653)	Data 0.000 (0.468)	Loss_ce 1.401 / 2.157	Loss_ce_soft 1.148 / 3.117	Loss_tri_soft 0.156 / 0.122	Loss_lf 5.206 / 2.900	Loss_lf_tri 0.194 / 0.146	Loss_mr 0.000 / 0.631	Prec 88.44% / 84.84%	
+Epoch: [21][60/200]	Time 1.187 (1.810)	Data 0.000 (0.625)	Loss_ce 1.367 / 2.228	Loss_ce_soft 1.129 / 3.153	Loss_tri_soft 0.140 / 0.113	Loss_lf 5.185 / 2.930	Loss_lf_tri 0.177 / 0.144	Loss_mr 0.000 / 0.637	Prec 89.48% / 83.23%	
+Epoch: [21][80/200]	Time 1.158 (1.652)	Data 0.000 (0.469)	Loss_ce 1.371 / 2.240	Loss_ce_soft 1.137 / 3.113	Loss_tri_soft 0.131 / 0.110	Loss_lf 5.166 / 2.919	Loss_lf_tri 0.172 / 0.142	Loss_mr 0.000 / 0.638	Prec 89.30% / 82.42%	
+Epoch: [21][100/200]	Time 1.164 (1.756)	Data 0.001 (0.566)	Loss_ce 1.362 / 2.228	Loss_ce_soft 1.151 / 3.084	Loss_tri_soft 0.129 / 0.109	Loss_lf 5.174 / 2.944	Loss_lf_tri 0.174 / 0.142	Loss_mr 0.000 / 0.635	Prec 90.00% / 82.62%	
+Epoch: [21][120/200]	Time 1.159 (1.821)	Data 0.000 (0.631)	Loss_ce 1.348 / 2.264	Loss_ce_soft 1.137 / 3.146	Loss_tri_soft 0.124 / 0.118	Loss_lf 5.171 / 3.004	Loss_lf_tri 0.172 / 0.147	Loss_mr 0.000 / 0.637	Prec 90.21% / 82.50%	
+Epoch: [21][140/200]	Time 1.166 (1.726)	Data 0.000 (0.541)	Loss_ce 1.342 / 2.273	Loss_ce_soft 1.140 / 3.158	Loss_tri_soft 0.122 / 0.115	Loss_lf 5.164 / 3.010	Loss_lf_tri 0.170 / 0.143	Loss_mr 0.000 / 0.637	Prec 90.13% / 82.50%	
+Epoch: [21][160/200]	Time 1.203 (1.771)	Data 0.001 (0.587)	Loss_ce 1.334 / 2.314	Loss_ce_soft 1.145 / 3.196	Loss_tri_soft 0.126 / 0.119	Loss_lf 5.161 / 3.029	Loss_lf_tri 0.172 / 0.146	Loss_mr 0.000 / 0.644	Prec 90.31% / 82.23%	
+Epoch: [21][180/200]	Time 1.139 (1.818)	Data 0.000 (0.630)	Loss_ce 1.341 / 2.320	Loss_ce_soft 1.151 / 3.189	Loss_tri_soft 0.123 / 0.115	Loss_lf 5.162 / 3.056	Loss_lf_tri 0.171 / 0.142	Loss_mr 0.000 / 0.645	Prec 89.97% / 82.19%	
+Epoch: [21][200/200]	Time 1.155 (1.936)	Data 0.000 (0.658)	Loss_ce 1.336 / 2.299	Loss_ce_soft 1.145 / 3.177	Loss_tri_soft 0.123 / 0.114	Loss_lf 5.159 / 3.041	Loss_lf_tri 0.171 / 0.142	Loss_mr 0.000 / 0.639	Prec 90.25% / 82.69%	
+Extract Features: [50/76]	Time 0.375 (0.727)	Data 0.000 (0.372)	
+Mean AP: 65.9%
+
+ * Finished phase   4 epoch  21  model no.1 mAP: 65.9%  best: 66.7%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.230036735534668
+Clustering and labeling...
+
+ Clustered into 111 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [22][20/200]	Time 1.171 (1.212)	Data 0.000 (0.000)	Loss_ce 1.342 / 2.128	Loss_ce_soft 1.158 / 2.954	Loss_tri_soft 0.158 / 0.149	Loss_lf 5.159 / 2.879	Loss_lf_tri 0.200 / 0.185	Loss_mr 0.000 / 0.616	Prec 91.56% / 84.38%	
+Epoch: [22][40/200]	Time 1.176 (1.664)	Data 0.000 (0.466)	Loss_ce 1.326 / 2.148	Loss_ce_soft 1.153 / 2.986	Loss_tri_soft 0.152 / 0.151	Loss_lf 5.180 / 2.923	Loss_lf_tri 0.200 / 0.181	Loss_mr 0.000 / 0.620	Prec 91.56% / 83.91%	
+Epoch: [22][60/200]	Time 1.202 (1.819)	Data 0.000 (0.627)	Loss_ce 1.323 / 2.189	Loss_ce_soft 1.138 / 3.055	Loss_tri_soft 0.149 / 0.145	Loss_lf 5.163 / 2.966	Loss_lf_tri 0.198 / 0.171	Loss_mr 0.000 / 0.624	Prec 91.88% / 83.44%	
+Epoch: [22][80/200]	Time 1.161 (1.658)	Data 0.000 (0.470)	Loss_ce 1.306 / 2.210	Loss_ce_soft 1.111 / 3.065	Loss_tri_soft 0.141 / 0.131	Loss_lf 5.164 / 3.014	Loss_lf_tri 0.187 / 0.156	Loss_mr 0.000 / 0.631	Prec 91.95% / 83.36%	
+Epoch: [22][100/200]	Time 1.213 (1.761)	Data 0.001 (0.566)	Loss_ce 1.311 / 2.227	Loss_ce_soft 1.107 / 3.076	Loss_tri_soft 0.142 / 0.126	Loss_lf 5.156 / 3.049	Loss_lf_tri 0.185 / 0.152	Loss_mr 0.000 / 0.634	Prec 91.88% / 83.12%	
+Epoch: [22][120/200]	Time 1.176 (1.824)	Data 0.000 (0.630)	Loss_ce 1.310 / 2.232	Loss_ce_soft 1.110 / 3.085	Loss_tri_soft 0.140 / 0.122	Loss_lf 5.164 / 3.048	Loss_lf_tri 0.183 / 0.151	Loss_mr 0.000 / 0.632	Prec 91.82% / 83.70%	
+Epoch: [22][140/200]	Time 1.164 (1.866)	Data 0.000 (0.675)	Loss_ce 1.304 / 2.258	Loss_ce_soft 1.107 / 3.105	Loss_tri_soft 0.143 / 0.125	Loss_lf 5.158 / 3.057	Loss_lf_tri 0.186 / 0.153	Loss_mr 0.000 / 0.634	Prec 91.96% / 83.04%	
+Epoch: [22][160/200]	Time 1.179 (1.780)	Data 0.000 (0.590)	Loss_ce 1.305 / 2.290	Loss_ce_soft 1.111 / 3.137	Loss_tri_soft 0.142 / 0.126	Loss_lf 5.167 / 3.061	Loss_lf_tri 0.187 / 0.154	Loss_mr 0.000 / 0.638	Prec 91.72% / 82.54%	
+Epoch: [22][180/200]	Time 1.162 (1.818)	Data 0.000 (0.629)	Loss_ce 1.292 / 2.312	Loss_ce_soft 1.103 / 3.159	Loss_tri_soft 0.140 / 0.122	Loss_lf 5.166 / 3.059	Loss_lf_tri 0.186 / 0.151	Loss_mr 0.000 / 0.640	Prec 92.08% / 82.15%	
+Epoch: [22][200/200]	Time 1.175 (1.946)	Data 0.000 (0.660)	Loss_ce 1.292 / 2.288	Loss_ce_soft 1.112 / 3.152	Loss_tri_soft 0.145 / 0.126	Loss_lf 5.172 / 3.046	Loss_lf_tri 0.190 / 0.153	Loss_mr 0.000 / 0.632	Prec 92.00% / 82.81%	
+Extract Features: [50/76]	Time 0.349 (0.756)	Data 0.000 (0.403)	
+Mean AP: 66.8%
+
+ * Finished phase   4 epoch  22  model no.1 mAP: 66.8%  best: 66.8% *
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 9.21304178237915
+Clustering and labeling...
+
+ Clustered into 117 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [23][20/200]	Time 1.199 (1.183)	Data 0.000 (0.000)	Loss_ce 1.384 / 2.078	Loss_ce_soft 1.113 / 2.917	Loss_tri_soft 0.122 / 0.119	Loss_lf 5.194 / 2.962	Loss_lf_tri 0.190 / 0.130	Loss_mr 0.000 / 0.618	Prec 88.12% / 84.06%	
+Epoch: [23][40/200]	Time 1.234 (1.658)	Data 0.000 (0.474)	Loss_ce 1.352 / 2.153	Loss_ce_soft 1.131 / 3.106	Loss_tri_soft 0.143 / 0.145	Loss_lf 5.180 / 3.044	Loss_lf_tri 0.209 / 0.158	Loss_mr 0.000 / 0.628	Prec 90.78% / 84.53%	
+Epoch: [23][60/200]	Time 1.214 (1.816)	Data 0.000 (0.632)	Loss_ce 1.334 / 2.166	Loss_ce_soft 1.122 / 3.095	Loss_tri_soft 0.158 / 0.130	Loss_lf 5.162 / 3.054	Loss_lf_tri 0.219 / 0.147	Loss_mr 0.000 / 0.630	Prec 91.15% / 84.69%	
+Epoch: [23][80/200]	Time 1.163 (1.665)	Data 0.000 (0.474)	Loss_ce 1.341 / 2.198	Loss_ce_soft 1.134 / 3.110	Loss_tri_soft 0.157 / 0.141	Loss_lf 5.168 / 3.069	Loss_lf_tri 0.213 / 0.154	Loss_mr 0.000 / 0.633	Prec 90.39% / 83.67%	
+Epoch: [23][100/200]	Time 1.570 (1.864)	Data 0.000 (0.613)	Loss_ce 1.327 / 2.214	Loss_ce_soft 1.117 / 3.097	Loss_tri_soft 0.148 / 0.140	Loss_lf 5.157 / 3.069	Loss_lf_tri 0.203 / 0.154	Loss_mr 0.000 / 0.635	Prec 90.69% / 83.12%	
+Epoch: [23][120/200]	Time 1.465 (1.996)	Data 0.000 (0.703)	Loss_ce 1.328 / 2.225	Loss_ce_soft 1.127 / 3.082	Loss_tri_soft 0.144 / 0.139	Loss_lf 5.159 / 3.047	Loss_lf_tri 0.197 / 0.157	Loss_mr 0.000 / 0.634	Prec 90.57% / 83.18%	
+Epoch: [23][140/200]	Time 1.498 (1.927)	Data 0.000 (0.603)	Loss_ce 1.329 / 2.244	Loss_ce_soft 1.119 / 3.081	Loss_tri_soft 0.140 / 0.144	Loss_lf 5.158 / 3.040	Loss_lf_tri 0.193 / 0.158	Loss_mr 0.000 / 0.635	Prec 90.00% / 82.77%	
+Epoch: [23][160/200]	Time 1.479 (2.027)	Data 0.000 (0.673)	Loss_ce 1.324 / 2.260	Loss_ce_soft 1.121 / 3.092	Loss_tri_soft 0.134 / 0.142	Loss_lf 5.162 / 3.028	Loss_lf_tri 0.187 / 0.157	Loss_mr 0.000 / 0.637	Prec 90.39% / 82.85%	
+Epoch: [23][180/200]	Time 1.532 (2.101)	Data 0.001 (0.728)	Loss_ce 1.322 / 2.275	Loss_ce_soft 1.111 / 3.102	Loss_tri_soft 0.135 / 0.137	Loss_lf 5.161 / 3.025	Loss_lf_tri 0.184 / 0.153	Loss_mr 0.000 / 0.637	Prec 90.42% / 82.74%	
+Epoch: [23][200/200]	Time 1.556 (2.158)	Data 0.000 (0.655)	Loss_ce 1.316 / 2.253	Loss_ce_soft 1.106 / 3.084	Loss_tri_soft 0.137 / 0.135	Loss_lf 5.160 / 3.039	Loss_lf_tri 0.184 / 0.152	Loss_mr 0.000 / 0.630	Prec 90.53% / 83.41%	
+Extract Features: [50/76]	Time 0.355 (0.830)	Data 0.001 (0.471)	
+Mean AP: 66.1%
+
+ * Finished phase   4 epoch  23  model no.1 mAP: 66.1%  best: 66.8%
+
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 11.479313850402832
+Clustering and labeling...
+
+ Clustered into 106 classes 
+
+###############################
+Lamda for less forget is set to  25.019992006393608
+###############################
+lr of module.classifier.fc1.weight is 0.00035
+lr of module.classifier_max.fc1.weight is 0.00035
+Epoch: [24][20/200]	Time 1.474 (1.465)	Data 0.000 (0.000)	Loss_ce 1.229 / 2.022	Loss_ce_soft 0.975 / 2.916	Loss_tri_soft 0.105 / 0.114	Loss_lf 5.190 / 2.661	Loss_lf_tri 0.166 / 0.136	Loss_mr 0.000 / 0.590	Prec 93.44% / 85.94%	
+Epoch: [24][40/200]	Time 1.534 (2.056)	Data 0.000 (0.584)	Loss_ce 1.276 / 2.088	Loss_ce_soft 1.010 / 3.004	Loss_tri_soft 0.161 / 0.108	Loss_lf 5.196 / 2.904	Loss_lf_tri 0.210 / 0.135	Loss_mr 0.000 / 0.602	Prec 92.19% / 85.62%	
+Epoch: [24][60/200]	Time 1.502 (2.246)	Data 0.000 (0.777)	Loss_ce 1.278 / 2.125	Loss_ce_soft 1.043 / 3.035	Loss_tri_soft 0.159 / 0.108	Loss_lf 5.178 / 2.917	Loss_lf_tri 0.209 / 0.133	Loss_mr 0.000 / 0.611	Prec 91.98% / 85.31%	
+Epoch: [24][80/200]	Time 1.481 (2.333)	Data 0.000 (0.871)	Loss_ce 1.278 / 2.195	Loss_ce_soft 1.041 / 3.095	Loss_tri_soft 0.154 / 0.116	Loss_lf 5.170 / 2.988	Loss_lf_tri 0.203 / 0.139	Loss_mr 0.000 / 0.620	Prec 91.80% / 84.45%	
+Epoch: [24][100/200]	Time 1.463 (2.166)	Data 0.000 (0.697)	Loss_ce 1.287 / 2.242	Loss_ce_soft 1.040 / 3.125	Loss_tri_soft 0.144 / 0.120	Loss_lf 5.172 / 3.019	Loss_lf_tri 0.195 / 0.145	Loss_mr 0.000 / 0.627	Prec 91.62% / 83.88%	
+Epoch: [24][120/200]	Time 1.479 (2.244)	Data 0.000 (0.774)	Loss_ce 1.286 / 2.267	Loss_ce_soft 1.041 / 3.127	Loss_tri_soft 0.135 / 0.120	Loss_lf 5.172 / 3.020	Loss_lf_tri 0.187 / 0.146	Loss_mr 0.000 / 0.631	Prec 91.46% / 83.23%	
+Epoch: [24][140/200]	Time 1.486 (2.303)	Data 0.000 (0.829)	Loss_ce 1.290 / 2.284	Loss_ce_soft 1.044 / 3.143	Loss_tri_soft 0.141 / 0.123	Loss_lf 5.170 / 3.042	Loss_lf_tri 0.193 / 0.150	Loss_mr 0.000 / 0.634	Prec 91.03% / 82.81%	
+Epoch: [24][160/200]	Time 1.435 (2.351)	Data 0.000 (0.871)	Loss_ce 1.288 / 2.293	Loss_ce_soft 1.046 / 3.144	Loss_tri_soft 0.139 / 0.124	Loss_lf 5.178 / 3.060	Loss_lf_tri 0.192 / 0.149	Loss_mr 0.000 / 0.630	Prec 91.09% / 82.89%	
+Epoch: [24][180/200]	Time 1.504 (2.260)	Data 0.000 (0.775)	Loss_ce 1.280 / 2.309	Loss_ce_soft 1.040 / 3.151	Loss_tri_soft 0.136 / 0.125	Loss_lf 5.173 / 3.055	Loss_lf_tri 0.188 / 0.148	Loss_mr 0.000 / 0.631	Prec 91.32% / 82.36%	
+Epoch: [24][200/200]	Time 1.494 (2.421)	Data 0.000 (0.813)	Loss_ce 1.277 / 2.286	Loss_ce_soft 1.043 / 3.139	Loss_tri_soft 0.144 / 0.124	Loss_lf 5.173 / 3.036	Loss_lf_tri 0.193 / 0.148	Loss_mr 0.000 / 0.625	Prec 91.53% / 82.94%	
+Extract Features: [50/76]	Time 0.373 (0.849)	Data 0.001 (0.475)	
+Mean AP: 66.4%
+
+ * Finished phase   4 epoch  24  model no.1 mAP: 66.4%  best: 66.8%
+
+update proto_dataset
+=> Loaded checkpoint 'logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/phase5_model_best.pth.tar'
+mismatch: module.classifier.fc2.weight torch.Size([111, 2048]) torch.Size([106, 2048])
+mismatch: module.classifier_max.fc2.weight torch.Size([111, 2048]) torch.Size([106, 2048])
+missing keys in state_dict: {'module.classifier.fc2.weight', 'module.classifier_max.fc2.weight'}
+Computing original distance...
+Computing Jaccard distance...
+Time cost: 11.354360342025757
+Clustering and labeling...
+phase 4�� Clustered into 117 example classes 
+delete by camera is 21
+total num is 96,delete by cluster distance is 4,remain num is 92
+NMI of phase4 is 0.9558492102517838 
+pickle into logs/dukemtmcTOmarket1501/resnet50_AB-ABMT-IC3/phase4_proto.pkl

@@ -594,6 +594,7 @@ class UsicTrainer_E(object):
         losses_ce_soft = [AverageMeter(),AverageMeter()]
         losses_tri_soft = [AverageMeter(),AverageMeter()]
         losses_lf = [AverageMeter(), AverageMeter()]
+        losses_mr = [AverageMeter(), AverageMeter()]
         losses_lf_tri = [AverageMeter(), AverageMeter()]
         precisions = [AverageMeter(),AverageMeter()]
 
@@ -631,16 +632,18 @@ class UsicTrainer_E(object):
         for i in range(train_iters):
             target_inputs = data_loader_target.next()
             data_time.update(time.time() - end)
-            loss_target_total, loss_ce_target, loss_ce_soft_target, loss_tri_soft_target, loss_dist_target,loss_dist_tri_target,pre_target=\
-                self.calculate_loss(target_inputs,self.old_class_num,self.total_class_num,1,self.criterion_ce1,cal_dist= use_dist,T=2)#lamda
+            loss_list_target,pre_target = self.calculate_loss(target_inputs, self.old_class_num, self.total_class_num, 1, self.criterion_ce1,
+                                    cal_dist=use_dist, T=2)  # lamda
+            loss_target_total, loss_ce_target, loss_ce_soft_target, loss_tri_soft_target, loss_dist_target, loss_dist_tri_target,loss_mr_target=loss_list_target
+            # loss_target_total, loss_ce_target, loss_ce_soft_target, loss_tri_soft_target, loss_dist_target,loss_dist_tri_target,pre_target=\
+            #     self.calculate_loss(target_inputs,self.old_class_num,self.total_class_num,1,self.criterion_ce1,cal_dist= use_dist,T=2)#lamda
             if phase>0:
                 examplar_inputs = data_loader_examplar.next()
-                loss_exa_total, loss_ce_exa, loss_ce_soft_exa, loss_tri_soft_exa, loss_dist_exa,loss_dist_tri_exa,pre_exa = \
-                self.calculate_loss(examplar_inputs, 0, self.total_class_num, 1,self.criterion_ce2, cal_dist=use_dist,T=2)#lamda
-
+                loss_list_exa,pre_exa =self.calculate_loss(examplar_inputs, 0, self.total_class_num, 1,self.criterion_ce2, cal_dist=use_dist,T=2,cal_margin_rank=True)#lamda
+                loss_exa_total, loss_ce_exa, loss_ce_soft_exa, loss_tri_soft_exa, loss_dist_exa, loss_dist_tri_exa,loss_mr_exa=loss_list_exa
             else:
                 loss_exa_total=0
-            loss = loss_target_total*0.2 + loss_exa_total
+            loss = loss_target_total*0.1 + loss_exa_total #0.2 ---5/18
 
             optimizer.zero_grad()
             loss.backward()
@@ -661,6 +664,9 @@ class UsicTrainer_E(object):
             losses_lf[1].update(loss_dist_exa.item() if phase>0 else 0)
             losses_lf_tri[0].update(loss_dist_tri_target.item() if phase>0 else 0)
             losses_lf_tri[1].update(loss_dist_tri_exa.item() if phase>0 else 0)
+            losses_mr[0].update(loss_mr_target.item() if phase>0 else 0)
+            losses_mr[1].update(loss_mr_exa.item() if phase > 0 else 0)
+
             precisions[0].update(pre_target[0].item())
             precisions[1].update(pre_exa[0].item() if phase>0 else 0)
 
@@ -677,6 +683,7 @@ class UsicTrainer_E(object):
                       'Loss_tri_soft {:.3f} / {:.3f}\t'
                       'Loss_lf {:.3f} / {:.3f}\t'
                       'Loss_lf_tri {:.3f} / {:.3f}\t'
+                      'Loss_mr {:.3f} / {:.3f}\t'
                       'Prec {:.2%} / {:.2%}\t'
                       .format(epoch, i + 1, len(data_loader_target),
                               batch_time.val, batch_time.avg,
@@ -686,6 +693,7 @@ class UsicTrainer_E(object):
                               losses_tri_soft[0].avg, losses_tri_soft[1].avg,
                               losses_lf[0].avg, losses_lf[1].avg,
                               losses_lf_tri[0].avg,losses_lf_tri[1].avg,
+                              losses_mr[0].avg, losses_mr[1].avg,
                               precisions[0].avg, precisions[1].avg,
                               ))
 
@@ -702,11 +710,99 @@ class UsicTrainer_E(object):
         targets = pids.cuda()
         return inputs_1, inputs_2, targets
 
-    def inter_class_loss(self):
-        pass
+    def inter_class_loss(self, logit, targets, num_old_classes, device=torch.device('cuda:0'), k=10, dist=0.5):
+        '''
+        Args:
+            logit: 经过normalize后，输出特征与classifier的cosine距离，未经过sigmma的scale效果
+            targets: label
+            num_old_classes: 上一个phase中的类数量
+            k: 新类需要远离几个旧类
+            dist: 远离的距离多少
+            device: 创建tensor的GPU
+        Returns:
+            object: loss
+        '''
+        hard_index = targets.lt(num_old_classes)  # old class的样本的index
+        hard_num = torch.nonzero(hard_index).size(0)
+        if hard_num==0:
+            loss = torch.zeros(1).to(device)
+        else:
+            gt_index = torch.zeros(logit.size()).to(device)
+            gt_index = gt_index.scatter(1, targets.view(-1, 1), 1).ge(0.5)
+            gt_scores = logit.masked_select(gt_index)
+            max_novel_scores = logit[:,num_old_classes:].topk(k, dim=1)[0]
+            gt_scores = gt_scores[hard_index].view(-1, 1).repeat(1, k)  # (new class样本数量,k)
+            max_novel_scores = max_novel_scores[hard_index]  # (new class样本数量,k)
+            assert (gt_scores.size() == max_novel_scores.size())
+            assert (gt_scores.size(0) == hard_num)
+            # print("hard example gt scores: ", gt_scores.size(), gt_scores)
+            # print("hard example max novel scores: ", max_novel_scores.size(), max_novel_scores)
+            loss = nn.MarginRankingLoss(margin=dist)(gt_scores.view(-1, 1), \
+                                                      max_novel_scores.view(-1, 1),
+                                                      torch.ones(hard_num * k).to(device))
+        return loss
+
+    # def inter_class_loss(self, logit, targets, num_old_classes, device=torch.device('cuda:0'), k=10, dist=0.5):#0.5
+    #     '''
+    #     Args:
+    #         logit: 经过normalize后，输出特征与classifier的cosine距离，未经过sigmma的scale效果
+    #         targets: label
+    #         num_old_classes: 上一个phase中的类数量
+    #         k: 新类需要远离几个旧类
+    #         dist: 远离的距离多少
+    #         device: 创建tensor的GPU
+    #     Returns:
+    #         object: loss
+    #     '''
+    #     i=1
+    #     hard_index = targets.lt(num_old_classes)  # old class的样本的index
+    #     hard_num = torch.nonzero(hard_index).size(0)
+    #     if hard_num == 0:
+    #         loss = torch.zeros(1).to(device)
+    #     else:
+    #         gt_index = torch.zeros(logit.size()).to(device)
+    #         gt_index = gt_index.scatter(1, targets.view(-1, 1), 1).ge(0.5)
+    #         gt_scores = logit.masked_select(gt_index)
+    #         max_novel_scores = logit[:, num_old_classes:].topk(k, dim=1)[0]
+    #         gt_scores = gt_scores[hard_index].view(-1, 1).repeat(1, k)  # (new class样本数量,k)
+    #         max_novel_scores = max_novel_scores[hard_index]  # (new class样本数量,k)
+    #         torch.arccos_(gt_scores)
+    #         torch.arccos_(max_novel_scores)
+    #         assert (gt_scores.size() == max_novel_scores.size())
+    #         assert (gt_scores.size(0) == hard_num)
+    #         # print("hard example gt scores: ", gt_scores.size(), gt_scores)
+    #         # print("hard example max novel scores: ", max_novel_scores.size(), max_novel_scores)
+    #         loss = nn.MarginRankingLoss(margin=dist)(max_novel_scores.view(-1, 1), \
+    #                                                  gt_scores.view(-1, 1),
+    #                                                  torch.ones(hard_num * k).to(device))
+    #     return loss
 
 
-    def calculate_loss(self, xx_inputs, begin, end, adaptive_lamda,activation, cal_dist=False, T=2):
+            #######
+        # gt_index = torch.zeros(logit.size()).to(device)
+        # gt_index = gt_index.scatter(1, targets.view(-1, 1), 1).ge(0.5)
+        # gt_scores = logit.masked_select(gt_index)
+        # # get top-K scores on novel classes
+        # max_novel_scores = logit[:, num_old_classes:].topk(K, dim=1)[0]
+        # # the index of hard samples, i.e., samples of old classes
+        # hard_index = targets.lt(num_old_classes)  # old class的样本的index
+        # hard_num = torch.nonzero(hard_index).size(0)
+        # # print("hard examples size: ", hard_num)
+        # if hard_num > 0:
+        #     gt_scores = gt_scores[hard_index].view(-1, 1).repeat(1, K)  # (old class样本数量,k)
+        #     max_novel_scores = max_novel_scores[hard_index]  # (old class样本数量,k)
+        #     assert (gt_scores.size() == max_novel_scores.size())
+        #     assert (gt_scores.size(0) == hard_num)
+        #     # print("hard example gt scores: ", gt_scores.size(), gt_scores)
+        #     # print("hard example max novel scores: ", max_novel_scores.size(), max_novel_scores)
+        #     loss3 = nn.MarginRankingLoss(margin=dist)(gt_scores.view(-1, 1), \
+        #                                               max_novel_scores.view(-1, 1),
+        #                                               torch.ones(hard_num * K).to(device))   # 相当于对logit值做惩罚。
+        # else:
+        #     loss3 = torch.zeros(1).to(device)
+
+
+    def calculate_loss(self, xx_inputs, begin, end, adaptive_lamda,activation, cal_dist=False, T=2,cal_margin_rank=False):
         inputs_1, inputs_2, targets = self._parse_data(xx_inputs)
         # input forward
         f_out_t1, f_out_t1_m, logit_t1, logit_t1_m = self.model_cur(inputs_1)
@@ -722,7 +818,12 @@ class UsicTrainer_E(object):
         loss_tri_soft = (self.criterion_tri_soft(f_out_t1, f_out_t1_ema_m, targets) + self.criterion_tri_soft(
             f_out_t1_m, f_out_t1_ema, targets)) / 2
 
-
+        if cal_margin_rank:
+            #除20是为了还原为经过sigmma=20的情况
+            loss_mr=self.inter_class_loss(logit=logit_t1/20, targets=targets,num_old_classes=self.old_class_num)+ \
+                     self.inter_class_loss(logit=logit_t1_m/20, targets=targets, num_old_classes=self.old_class_num)
+        else:
+            loss_mr=torch.tensor(0,dtype=torch.float).cuda()
 
         if cal_dist:
             logit_t1_old = logit_t1[:, :self.old_class_num]
@@ -753,8 +854,8 @@ class UsicTrainer_E(object):
         else:
             loss_dist = 0
             loss_lf_tri=0
-        loss_target_input = loss_ce * (1 - 0.5) + loss_ce_soft * 0.5 + loss_tri_soft + (loss_dist + loss_lf_tri)*adaptive_lamda  # * adaptive_lamda未使用自适应系数
+        loss_target_input = loss_ce * (1 - 0.5) + loss_ce_soft * 0.5 + loss_tri_soft +loss_mr+ (loss_dist + loss_lf_tri)*adaptive_lamda  # * adaptive_lamda未使用自适应系数
         # ce_soft_weight = 0.5
         precision = accuracy(p_out_t1.data, (targets - begin).data)
-        return loss_target_input, loss_ce, loss_ce_soft, loss_tri_soft, loss_dist, loss_lf_tri,precision
+        return [loss_target_input, loss_ce, loss_ce_soft, loss_tri_soft, loss_dist, loss_lf_tri,loss_mr],precision
 
